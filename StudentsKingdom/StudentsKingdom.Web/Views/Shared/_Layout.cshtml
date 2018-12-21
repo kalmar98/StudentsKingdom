@@ -44,22 +44,22 @@
     *@
 
 
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <div class="logo mx-auto">
-            </div>
+    <nav class="navbar">
+        <div class="logo-hover w-100 center">
+            <figure><img class="logo" src="~/images/logo.png" /></figure>
         </div>
     </nav>
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="container body-content ">
+    <div class="container body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p class="center">&copy; 2019 - Student's Kingdom</p>
-        </footer>
     </div>
+
+    <footer>
+        <p class="center">&copy; 2019 Student's Kingdom</p>
+
+    </footer>
 
     <environment include="Development">
         <!--Dev Env, ако Deploy-вам-->

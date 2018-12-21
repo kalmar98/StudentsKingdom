@@ -1,0 +1,53 @@
+﻿@model LoginViewModel
+<h1 class="text-center">Login</h1>
+
+
+<form class="mx-auto w-25" method="post">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="mx-auto font-moria-citadel">Login</h2>
+            </div>
+            <hr class="eventures-hr" />
+            <div class="form-group">
+                <center><label asp-for="Username"><b>Username</b></label></center>
+                <input asp-for="Username" type="text" class="form-control" placeholder="Username...">
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <center><label asp-for="Password"><b>Password</b></label></center>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password...">
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <hr class="eventures-hr" />
+            <div align="center">
+                <input asp-for="RememberMe" />
+                <label asp-for="RememberMe">Remember Me</label>
+            </div>
+            <hr class="eventures-hr" />
+            <div class="button-holder d-flex justify-content-around">
+                <button type="submit" class="btn eventures-bg-color">Login</button>
+                <button data-dismiss="modal" class="btn eventures-bg-color">Cancel</button>
+            </div>
+            <div align="center">
+                <a asp-controller="" asp-action="">Forgot your password?</a>
+                <br />
+                <a asp-controller="User" asp-action="Register">Register as a new user</a>
+            </div>
+        </div>
+        
+    </div>
+</form>
+
+<hr class="eventures-hr w-25" />
+<form asp-controller="User" asp-action="LoginWithFacebook" method="post" class="mx-auto w-25">
+    <div align="center">
+        <button type="submit" class="btn eventures-bg-color" name="provider" value="Facebook">Facebook</button>
+    </div>
+</form>
+<hr class="eventures-hr w-25" />
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
