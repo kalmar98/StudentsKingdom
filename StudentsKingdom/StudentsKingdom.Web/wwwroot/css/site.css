@@ -2,7 +2,7 @@
 for details on configuring this project to bundle and minify static web assets. */
 body {
     background-color: black;
-    background-image: url(https://i.ytimg.com/vi/KwF2Eve4moE/maxresdefault.jpg);
+    background-image: url(/images/home.png);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -16,6 +16,7 @@ body {
 
 .navbar {
     background-color: black;
+    opacity: 0.7;
 }
 
 /* Carousel */
@@ -45,3 +46,14 @@ body {
 .center {
     text-align: center;
 }
+
+.logo {
+    height: 147px;
+    width: 199px;
+    background: url(/images/logo.png) no-repeat;
+    text-align: center;
+}
+
+    .logo:hover {
+        background: url(/images/logo-hover.png) no-repeat;
+    }

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsKingdom.Data", "Stu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsKingdom.Data.Models", "StudentsKingdom.Data.Models\StudentsKingdom.Data.Models.csproj", "{7DFACE61-429A-4A58-A4F5-C3CAC1B18ACF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsKingdom.Common", "StudentsKingdom.Common\StudentsKingdom.Common.csproj", "{3B71FE1B-2C72-408E-B735-F4FCFD622AC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{7DFACE61-429A-4A58-A4F5-C3CAC1B18ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DFACE61-429A-4A58-A4F5-C3CAC1B18ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DFACE61-429A-4A58-A4F5-C3CAC1B18ACF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B71FE1B-2C72-408E-B735-F4FCFD622AC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B71FE1B-2C72-408E-B735-F4FCFD622AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B71FE1B-2C72-408E-B735-F4FCFD622AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B71FE1B-2C72-408E-B735-F4FCFD622AC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
