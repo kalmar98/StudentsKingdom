@@ -12,7 +12,8 @@ namespace StudentsKingdom.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
         }
+
+        public DbSet<Character> Characters { get; set; }
     }
 }

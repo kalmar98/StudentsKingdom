@@ -10,8 +10,8 @@ using StudentsKingdom.Data;
 namespace StudentsKingdom.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181220192647_initial")]
-    partial class initial
+    [Migration("20181223003633_testingCharactersTable")]
+    partial class testingCharactersTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -87,11 +87,9 @@ namespace StudentsKingdom.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -122,11 +120,9 @@ namespace StudentsKingdom.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -135,12 +131,41 @@ namespace StudentsKingdom.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Character", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Agility");
+
+                    b.Property<int>("Damage");
+
+                    b.Property<int>("Defence");
+
+                    b.Property<int>("Endurance");
+
+                    b.Property<int>("Health");
+
+                    b.Property<int>("Intellect");
+
+                    b.Property<int>("Strength");
+
+                    b.Property<int>("Vitality");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Characters");
+                });
+
             modelBuilder.Entity("StudentsKingdom.Data.Models.StudentsKingdomUser", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
+
+                    b.Property<int>("CharacterId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -174,6 +199,8 @@ namespace StudentsKingdom.Data.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -228,6 +255,14 @@ namespace StudentsKingdom.Data.Migrations
                     b.HasOne("StudentsKingdom.Data.Models.StudentsKingdomUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.StudentsKingdomUser", b =>
+                {
+                    b.HasOne("StudentsKingdom.Data.Models.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("CharacterId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

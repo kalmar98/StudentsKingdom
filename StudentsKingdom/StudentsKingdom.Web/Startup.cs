@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StudentsKingdom.Data;
 using StudentsKingdom.Data.Models;
+using StudentsKingdom.Mapping;
+using StudentsKingdom.Web.Middlewares;
 
 namespace StudentsKingdom.Web
 {
@@ -28,6 +30,9 @@ namespace StudentsKingdom.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            AutoMapperConfig.RegisterMappings(
+
+                );
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -38,15 +43,25 @@ namespace StudentsKingdom.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<StudentsKingdomUser>(options =>
+            services.AddIdentity<StudentsKingdomUser, IdentityRole>(options =>
             {
+                //for now
+                options.SignIn.RequireConfirmedEmail = false;
                 options.Password.RequiredLength = 6;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
             })
+                .AddDefaultUI()
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddAuthentication()
+                .AddFacebook(facebookOptions => {
+                    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -70,6 +85,8 @@ namespace StudentsKingdom.Web
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseAdminConfiguration();
 
             app.UseMvc(routes =>
             {

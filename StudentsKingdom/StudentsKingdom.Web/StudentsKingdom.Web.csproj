@@ -13,7 +13,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StudentsKingdom.Data.Models\StudentsKingdom.Data.Models.csproj" />
+    <ProjectReference Include="..\StudentsKingdom.Data.Services\StudentsKingdom.Data.Services.csproj" />
     <ProjectReference Include="..\StudentsKingdom.Data\StudentsKingdom.Data.csproj" />
+    <ProjectReference Include="..\StudentsKingdom.Mapping\StudentsKingdom.Mapping.csproj" />
   </ItemGroup>
 
 </Project>

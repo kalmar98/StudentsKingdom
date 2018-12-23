@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StudentsKingdom.Common
+namespace StudentsKingdom.Data.Common
 {
     public class BaseModel<T>
     {

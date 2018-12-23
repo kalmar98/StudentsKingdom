@@ -87,7 +87,6 @@ footer {
 
 .play-btn {
     margin-top: 46%;
-    
 }
 
 .button--moema {
@@ -96,7 +95,7 @@ footer {
     padding: 1.5em 3em;
     border-radius: 20px;
     background: #ffa667;
-    color: #ffffff;
+    color: #000000;
     -webkit-transition: background-color 0.1s, color 0.1s;
     transition: background-color 0.1s, color 0.1s;
 }

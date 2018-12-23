@@ -10,7 +10,16 @@ namespace StudentsKingdom.Web.Controllers
     {
         public IActionResult LoginWindow()
         {
-            return this.PartialView("LoginWindowPartial");
+            return this.PartialView("_LoginWindowPartial");
+        }
+
+        [HttpPost]
+        public IActionResult Login()
+        {
+
+
+
+            return this.RedirectToPage("");
         }
     }
 }
