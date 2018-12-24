@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StudentsKingdom.Data.Migrations
 {
-    public partial class testingCharactersTable : Migration
+    public partial class test : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,15 +27,7 @@ namespace StudentsKingdom.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Health = table.Column<int>(nullable: false),
-                    Damage = table.Column<int>(nullable: false),
-                    Defence = table.Column<int>(nullable: false),
-                    Vitality = table.Column<int>(nullable: false),
-                    Strength = table.Column<int>(nullable: false),
-                    Agility = table.Column<int>(nullable: false),
-                    Intellect = table.Column<int>(nullable: false),
-                    Endurance = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                 },
                 constraints: table =>
                 {

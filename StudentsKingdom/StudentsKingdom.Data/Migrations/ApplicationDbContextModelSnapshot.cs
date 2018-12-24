@@ -135,22 +135,6 @@ namespace StudentsKingdom.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Agility");
-
-                    b.Property<int>("Damage");
-
-                    b.Property<int>("Defence");
-
-                    b.Property<int>("Endurance");
-
-                    b.Property<int>("Health");
-
-                    b.Property<int>("Intellect");
-
-                    b.Property<int>("Strength");
-
-                    b.Property<int>("Vitality");
-
                     b.HasKey("Id");
 
                     b.ToTable("Characters");

@@ -65,7 +65,7 @@ p {
     100% {
         opacity: 1;
     }
-} 
+}
 
 
 footer {
@@ -87,6 +87,7 @@ footer {
 
 .play-btn {
     margin-top: 46%;
+    font-family: 'Moria Citadel';
 }
 
 .button--moema {
@@ -187,4 +188,32 @@ footer {
         -webkit-transform: scale3d(1, 1, 1);
         transform: scale3d(1, 1, 1);
     }
+}
+
+.modal-header {
+    background-color: #ffa667;
+}
+
+.modal-body {
+    background-color: #ff8a38;
+}
+
+.modal-footer {
+    background-color: #ffa667;
+}
+
+.modal-content {
+    border: 0px;
+    border-radius: 5px;
+}
+
+.sk-login-btn {
+    font-family: 'Moria Citadel';
+    background-color: #ff8a38;
+    border: 10px double black;
+}
+
+.login-links {
+    font-weight: bold;
+    font-size: 14px;
 }

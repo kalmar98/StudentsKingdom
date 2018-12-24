@@ -10,8 +10,8 @@ using StudentsKingdom.Data;
 namespace StudentsKingdom.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181223003633_testingCharactersTable")]
-    partial class testingCharactersTable
+    [Migration("20181224005806_test")]
+    partial class test
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -136,22 +136,6 @@ namespace StudentsKingdom.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Agility");
-
-                    b.Property<int>("Damage");
-
-                    b.Property<int>("Defence");
-
-                    b.Property<int>("Endurance");
-
-                    b.Property<int>("Health");
-
-                    b.Property<int>("Intellect");
-
-                    b.Property<int>("Strength");
-
-                    b.Property<int>("Vitality");
 
                     b.HasKey("Id");
 

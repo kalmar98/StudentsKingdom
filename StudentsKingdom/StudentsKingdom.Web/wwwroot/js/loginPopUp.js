@@ -2,7 +2,7 @@
 
     var modalName = '#loginModal';
 
-    $('.play-btn').click(function () {
+    $('playBtn').click(function () {
         let url = $(modalName).data('url');
         $.get(url, function (data) {
             $(modalName).html(data);

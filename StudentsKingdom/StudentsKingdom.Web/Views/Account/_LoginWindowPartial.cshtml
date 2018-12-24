@@ -1,53 +1,50 @@
 ﻿@model LoginViewModel
-<h1 class="text-center">Login</h1>
-
-
-<form class="mx-auto w-25" method="post" action="/Account/Login">
-    <div class="modal-dialog">
-        <div class="modal-content">
+<div class="modal-dialog mx-auto">
+    <div class="modal-content">
+        <form method="post" action="/Account/Login">
             <div class="modal-header">
                 <h2 class="mx-auto font-moria-citadel">Login</h2>
             </div>
-            <hr class="eventures-hr" />
-            <div class="form-group">
-                <center><label asp-for="Username"><b>Username</b></label></center>
-                <input asp-for="Username" type="text" class="form-control" placeholder="Username...">
-                <span asp-validation-for="Username" class="text-danger"></span>
+            <div class="modal-body">
+                <div class="form-group center">
+                    <label asp-for="Username"><b>Username</b></label>
+                    <input asp-for="Username" type="text" class="form-control" placeholder="Username...">
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="form-group center">
+                    <label asp-for="Password"><b>Password</b></label>
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password...">
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="center">
+                    <input asp-for="RememberMe" />
+                    <label asp-for="RememberMe">Remember Me</label>
+                </div>
             </div>
-            <div class="form-group">
-                <center><label asp-for="Password"><b>Password</b></label></center>
-                <input asp-for="Password" type="password" class="form-control" placeholder="Password...">
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <hr class="eventures-hr" />
-            <div align="center">
-                <input asp-for="RememberMe" />
-                <label asp-for="RememberMe">Remember Me</label>
-            </div>
-            <hr class="eventures-hr" />
-            <div class="button-holder d-flex justify-content-around">
-                <button type="submit" class="btn eventures-bg-color">Login</button>
-                <button data-dismiss="modal" class="btn eventures-bg-color">Cancel</button>
-            </div>
-            <div align="center">
-                <a asp-controller="" asp-action="">Forgot your password?</a>
-                <br />
-                <a asp-controller="User" asp-action="Register">Register as a new user</a>
-            </div>
-        </div>
-        
-    </div>
-</form>
 
-<hr class="eventures-hr w-25" />
-<form asp-controller="User" asp-action="LoginWithFacebook" method="post" class="mx-auto w-25">
-    <div align="center">
-        <button type="submit" class="btn eventures-bg-color" name="provider" value="Facebook">Facebook</button>
-    </div>
-</form>
-<hr class="eventures-hr w-25" />
+            <div class="modal-footer d-block">
+                <div class="button-holder d-flex justify-content-around">
+                    <button type="submit" class="btn sk-login-btn col-md-4">Login</button>
+                    <button data-dismiss="modal" class="btn sk-login-btn col-md-4">Cancel</button>
+                </div>
+                <div class="center">
+                    <div>
+                        <a asp-controller="User" asp-action="Register" class="login-links">Register as a new user</a>
+                    </div>
+                    <div>
+                        <a asp-controller="User" asp-action="LoginWithFacebook" name="provider" value="Facebook" class="login-links">Login with Facebook</a>
+                    </div>
+                </div>
 
-@section Scripts
-{
-    <partial name="_ValidationScriptsPartial" />
-}
+
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+@*Ако Deploy-вам може да променя разни работи*@
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>

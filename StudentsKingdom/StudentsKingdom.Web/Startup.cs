@@ -15,6 +15,9 @@ using StudentsKingdom.Data;
 using StudentsKingdom.Data.Models;
 using StudentsKingdom.Mapping;
 using StudentsKingdom.Web.Middlewares;
+using StudentsKingdom.Data.Services;
+using StudentsKingdom.Data.Services.Contracts;
+using AutoMapper;
 
 namespace StudentsKingdom.Web
 {
@@ -30,9 +33,8 @@ namespace StudentsKingdom.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            AutoMapperConfig.RegisterMappings(
+            
 
-                );
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -47,7 +49,7 @@ namespace StudentsKingdom.Web
             {
                 //for now
                 options.SignIn.RequireConfirmedEmail = false;
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = 5;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
@@ -58,12 +60,26 @@ namespace StudentsKingdom.Web
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddAuthentication()
-                .AddFacebook(facebookOptions => {
+                .AddFacebook(facebookOptions =>
+                {
                     facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                     facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                 });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddAutoMapper();
+
+            AutoMapperConfig.RegisterMappings(
+                typeof(AccountService).Assembly
+
+                );
+
+            services.AddScoped<IAccountService, AccountService>();
+
+
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,10 +8,10 @@ namespace StudentsKingdom.Web.Models
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string Username { get; set; }
 
-        [Required]
+        [Required(AllowEmptyStrings = false)]
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }

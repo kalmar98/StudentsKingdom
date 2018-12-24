@@ -5,7 +5,7 @@ using System.Text;
 
 namespace StudentsKingdom.Data.Common.Contracts
 {
-    public interface IStats: IHealth, IDamage, IDefence, IVitality, IStrength, IAgility, IIntellect, IEndurance
+    public interface IStats: IHealth, IDamage, IDefence, IVitality, IStrength, IAgility, IIntellect, IEndurance, ISpeed, IWeight
     {
     }
 }

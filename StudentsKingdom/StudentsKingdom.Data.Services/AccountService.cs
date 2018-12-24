@@ -24,6 +24,22 @@ namespace StudentsKingdom.Data.Services
             this.mapper = mapper;
         }
 
+        public async Task Login(StudentsKingdomUser user, bool rememberMe)
+        {
+            await this.signInManager.SignInAsync(user, rememberMe);
+        }
+
+        public async Task Logout()
+        {
+            await this.signInManager.SignOutAsync();
+        }
+
+        public StudentsKingdomUser GetUserByNameAndPassword(string username, string password)
+        {
+            return  this.signInManager.UserManager.Users.FirstOrDefault(u =>
+                u.UserName == username && signInManager.CheckPasswordSignInAsync(u, password, false).Result.Succeeded);
+
+        }
 
         public async Task SeedAdmin()
         {
@@ -36,10 +52,15 @@ namespace StudentsKingdom.Data.Services
                 {
                     UserName = adminRoleName,
                     Email = "admin@adm.in",
-                    Character = new Character()
+                    Character = new Character(),
+                    SecurityStamp = Guid.NewGuid().ToString()
+                    
                 };
 
+                signInManager.UserManager.PasswordHasher.HashPassword(user, adminRoleName);
+
                 await signInManager.UserManager.CreateAsync(user, adminRoleName);
+
                 await signInManager.UserManager.AddToRoleAsync(user, adminRoleName);
             }
 
