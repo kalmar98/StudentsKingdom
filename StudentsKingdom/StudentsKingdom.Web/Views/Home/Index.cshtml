@@ -5,21 +5,15 @@
     <button type="button" class="btn btn-lg button--moema play-btn" id="playBtn">Play</button>
 </div>
 
-
-
-
 <div data-url="@Url.Action("LoginWindow","Account")" class="modal fade px-0" role="dialog" id="loginModal"></div>
 
 @section Scripts
     {
-    <script type="text/javascript" src="~/js/loginPopUp.js"></script>
-    <script>
-
-
-
-     
-
-    </script>
+    <script src="~/js/loginPopUp.js"></script>
+    @if (this.TempData["LoginError"].ToString() == "Yes")
+    {
+        <script src="~/js/loginPopUpReappear.js"></script>
+    }
 }
 
 

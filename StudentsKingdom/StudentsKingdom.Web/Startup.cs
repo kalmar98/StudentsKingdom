@@ -18,6 +18,7 @@ using StudentsKingdom.Web.Middlewares;
 using StudentsKingdom.Data.Services;
 using StudentsKingdom.Data.Services.Contracts;
 using AutoMapper;
+using StudentsKingdom.Common.Constants.User;
 
 namespace StudentsKingdom.Web
 {
@@ -49,7 +50,7 @@ namespace StudentsKingdom.Web
             {
                 //for now
                 options.SignIn.RequireConfirmedEmail = false;
-                options.Password.RequiredLength = 5;
+                options.Password.RequiredLength = UserConstants.PasswordMinLength;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;

@@ -1,12 +1,15 @@
 ﻿$(document).ready(function () {
 
-    var modalName = '#loginModal';
+    let modalName = '#loginModal';
 
-    $('playBtn').click(function () {
+    $('#playBtn').click(function () {
+        
         let url = $(modalName).data('url');
+
         $.get(url, function (data) {
             $(modalName).html(data);
             $(modalName).modal('show');
+            
         });
     });
 });

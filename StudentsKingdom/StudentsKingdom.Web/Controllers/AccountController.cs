@@ -24,9 +24,7 @@ namespace StudentsKingdom.Web.Controllers
 
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
-        {
-            ViewData["LoginError"] = "No";
-
+        { 
             if (this.ModelState.IsValid)
             {
                 var user = this.accountService.GetUserByNameAndPassword(model.Username, model.Password);
@@ -41,8 +39,9 @@ namespace StudentsKingdom.Web.Controllers
                 
             }
 
-            ViewData["LoginError"] = "Yes";
-            return this.RedirectToAction("Index","Home");
+            this.TempData["LoginError"] = "Yes";
+            return this.RedirectToAction("Index", "Home");
+
         }
 
         public IActionResult Register()

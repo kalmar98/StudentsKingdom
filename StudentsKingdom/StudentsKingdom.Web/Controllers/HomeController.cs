@@ -13,6 +13,10 @@ namespace StudentsKingdom.Web.Controllers
     {
         public IActionResult Index()
         {
+            if(!this.TempData.ContainsKey("LoginError"))
+            {
+                this.TempData["LoginError"] = "No";
+            }
             
             return View();
         }
