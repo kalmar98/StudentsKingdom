@@ -1,0 +1,45 @@
+﻿.navbar-sk-btn{
+    background-color: #ff6a00;
+    border: 5px double #000000;
+    font-family: 'Moria Citadel';
+    font-weight: bold;
+    font-size: 20px;
+    color: #000000;
+}
+
+
+.logo {
+    width: 100%;
+    height: 100%;
+}
+
+.navbar {
+    background-color: black;
+    opacity: 0.6;
+    border: 5px double #ff6a00;
+}
+
+.body-content {
+    background: url(/images/home.png) no-repeat 50% 0;
+    background-size: cover;
+    width: 100%;
+    overflow: hidden;
+}
+.navbar-toggler{
+    background-color: #808080;
+    opacity: 0.6;
+}
+
+.username{
+    background-color: #ff6a00;
+    color: #000000;
+    opacity: 0.6;
+    border: 5px double #000000;
+}
+
+.avatar {
+    background: url(/images/avatar.png) no-repeat;
+    height: 256px;
+    width: 256px;
+    
+}
