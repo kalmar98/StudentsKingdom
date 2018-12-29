@@ -4,41 +4,36 @@
 }
 
 
-<h1 class="text-center">Register</h1>
+<h1 class="text-center sk-header-register">Register</h1>
 
-<form class="mx-auto half-width" method="post">
+<form class="mx-auto w-50" method="post">
 
-    <hr class="eventures-hr" />
-    <div class="row">
-        <div class="form-group col-md-6">
-            <center><label asp-for="Username"><b>Username</b></label></center>
-            <input asp-for="Username" type="text" class="form-control" placeholder="Username...">
-            <span asp-validation-for="Username" class="text-danger"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <center><label asp-for="Email"><b>Email</b></label></center>
-            <input asp-for="Email" type="email" class="form-control" placeholder="Email...">
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
+    <div class="form-group">
+        <label class="sk-label" asp-for="Username">Username</label>
+        <input asp-for="Username" type="text" class="form-control" placeholder="Username...">
+        <span asp-validation-for="Username" class="text-danger"></span>
     </div>
 
-    <div class="row">
-        <div class="form-group col-md-6">
-            <center><b><label asp-for="Password">Password</label></b></center>
-            <input asp-for="Password" type="password" class="form-control" placeholder="Password...">
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-6">
-            <center><b><label asp-for="ConfirmPassword">Confirm Password</label></b></center>
-            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password...">
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
+    <div class="form-group">
+        <label class="sk-label" asp-for="Email">Email</label>
+        <input asp-for="Email" type="email" class="form-control" placeholder="Email...">
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
-    <hr class="eventures-hr" />
-    <div class="button-holder d-flex justify-content-center">
-        <button type="submit" class="btn eventures-bg-color">Register</button>
+    <div class="form-group">
+        <label class="sk-label" asp-for="Password">Password</label>
+        <input asp-for="Password" type="password" class="form-control" placeholder="Password...">
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label class="sk-label" asp-for="ConfirmPassword">Confirm Password</label>
+        <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm Password...">
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+
+    <div class="button-holder d-flex justify-content-center  my-auto">
+        <button type="submit" class="btn sk-register-btn">Enter</button>
     </div>
 </form>
 

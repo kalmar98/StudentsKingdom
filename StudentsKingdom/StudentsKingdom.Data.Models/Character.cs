@@ -14,5 +14,6 @@ namespace StudentsKingdom.Data.Models
         public Inventory Inventory { get; set; }
 
 
+
     }
 }

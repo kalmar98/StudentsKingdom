@@ -43,3 +43,43 @@
     width: 256px;
     
 }
+
+.avatar-wrap {
+    position: relative;
+    height: 256px;
+    width: 256px;
+}
+
+.avatar-description-layer {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(36, 62, 206, 0.6);
+    color: #fff;
+    visibility: hidden;
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    transition: opacity .2s, visibility .2s;
+}
+
+.avatar-wrap:hover .avatar-description-layer {
+    visibility: visible;
+    opacity: 1;
+}
+
+.avatar-description {
+    transition: .2s;
+    transform: translateY(1em);
+}
+
+.avatar-wrap:hover .avatar-description {
+    transform: translateY(0);
+}
+
+
+
