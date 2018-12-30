@@ -41,6 +41,7 @@ namespace StudentsKingdom.Web
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+                
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -56,7 +57,7 @@ namespace StudentsKingdom.Web
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
             })
-                .AddDefaultUI()
+                 //.AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -66,6 +67,14 @@ namespace StudentsKingdom.Web
                     facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
                     facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                 });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Home/Index";
+                options.LogoutPath = $"/Account/Logout";
+                options.AccessDeniedPath = $"/Account/Access-Denied";
+            });
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -77,8 +86,12 @@ namespace StudentsKingdom.Web
                 );
 
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<IStatsService, StatsService>();
+            services.AddScoped<ICharacterService, CharacterService>();
+            services.AddScoped<IInventoryService, InventoryService>();
 
-
+            
 
 
         }
@@ -103,7 +116,7 @@ namespace StudentsKingdom.Web
 
             app.UseAuthentication();
 
-            app.UseAdminConfiguration();
+            app.UseStudentsKingdomConfiguration();
 
             app.UseMvc(routes =>
             {

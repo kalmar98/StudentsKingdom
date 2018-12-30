@@ -8,24 +8,19 @@ namespace StudentsKingdom.Data.Models
 {
     public class Stats : BaseModel<int>, IStats
     {
-        public int Health { get; private set; }
+        public int Health { get; set; }
 
-        public int Damage { get; private set; }
+        public int Damage { get; set; }
 
-        public int Defence { get; private set; }
+        public int Defence { get; set; }
 
-        public int Vitality { get; private set; }
+        public int Vitality { get; set; }
 
-        public int Strength { get; private set; }
+        public int Strength { get; set; }
 
-        public int Agility { get; private set; }
+        public int Agility { get; set; }
 
-        public int Intellect { get; private set; }
+        public int Intellect { get; set; }
 
-        public int Endurance { get; private set; }
-
-        public int Speed { get; private set; }
-
-        public int Weight { get; private set; }
     }
 }

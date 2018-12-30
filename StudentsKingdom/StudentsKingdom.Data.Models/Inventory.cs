@@ -12,5 +12,6 @@ namespace StudentsKingdom.Data.Models
 
         public IList<Item> Items { get; set; } = new List<Item>();
 
+
     }
 }

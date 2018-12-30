@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StudentsKingdom.Data.Migrations
 {
-    public partial class test : Migration
+    public partial class NewVersionOfAllEntities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,15 +23,35 @@ namespace StudentsKingdom.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Characters",
+                name: "Inventories",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Capacity = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Characters", x => x.Id);
+                    table.PrimaryKey("PK_Inventories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Health = table.Column<int>(nullable: false),
+                    Damage = table.Column<int>(nullable: false),
+                    Defence = table.Column<int>(nullable: false),
+                    Vitality = table.Column<int>(nullable: false),
+                    Strength = table.Column<int>(nullable: false),
+                    Agility = table.Column<int>(nullable: false),
+                    Intellect = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stats", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -56,6 +76,74 @@ namespace StudentsKingdom.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Locations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    InventoryId = table.Column<int>(nullable: true),
+                    Type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Locations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Locations_Inventories_InventoryId",
+                        column: x => x.InventoryId,
+                        principalTable: "Inventories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Characters",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Coins = table.Column<int>(nullable: false),
+                    StatsId = table.Column<int>(nullable: false),
+                    InventoryId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Characters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Characters_Inventories_InventoryId",
+                        column: x => x.InventoryId,
+                        principalTable: "Inventories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Characters_Stats_StatsId",
+                        column: x => x.StatsId,
+                        principalTable: "Stats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Enemies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    StatsId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Enemies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Enemies_Stats_StatsId",
+                        column: x => x.StatsId,
+                        principalTable: "Stats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -74,7 +162,7 @@ namespace StudentsKingdom.Data.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    CharacterId = table.Column<int>(nullable: false)
+                    CharacterId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,6 +171,64 @@ namespace StudentsKingdom.Data.Migrations
                         name: "FK_AspNetUsers_Characters_CharacterId",
                         column: x => x.CharacterId,
                         principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false),
+                    Coins = table.Column<int>(nullable: false),
+                    Image = table.Column<string>(nullable: true),
+                    StatsId = table.Column<int>(nullable: false),
+                    CharacterId = table.Column<int>(nullable: true),
+                    InventoryId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Items_Characters_CharacterId",
+                        column: x => x.CharacterId,
+                        principalTable: "Characters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Items_Inventories_InventoryId",
+                        column: x => x.InventoryId,
+                        principalTable: "Inventories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Items_Stats_StatsId",
+                        column: x => x.StatsId,
+                        principalTable: "Stats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Quests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Coins = table.Column<int>(nullable: false),
+                    EnemyId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Quests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Quests_Enemies_EnemyId",
+                        column: x => x.EnemyId,
+                        principalTable: "Enemies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -215,6 +361,46 @@ namespace StudentsKingdom.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Characters_InventoryId",
+                table: "Characters",
+                column: "InventoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Characters_StatsId",
+                table: "Characters",
+                column: "StatsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Enemies_StatsId",
+                table: "Enemies",
+                column: "StatsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_CharacterId",
+                table: "Items",
+                column: "CharacterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_InventoryId",
+                table: "Items",
+                column: "InventoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_StatsId",
+                table: "Items",
+                column: "StatsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Locations_InventoryId",
+                table: "Locations",
+                column: "InventoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Quests_EnemyId",
+                table: "Quests",
+                column: "EnemyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -235,13 +421,31 @@ namespace StudentsKingdom.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Items");
+
+            migrationBuilder.DropTable(
+                name: "Locations");
+
+            migrationBuilder.DropTable(
+                name: "Quests");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
+                name: "Enemies");
+
+            migrationBuilder.DropTable(
                 name: "Characters");
+
+            migrationBuilder.DropTable(
+                name: "Inventories");
+
+            migrationBuilder.DropTable(
+                name: "Stats");
         }
     }
 }

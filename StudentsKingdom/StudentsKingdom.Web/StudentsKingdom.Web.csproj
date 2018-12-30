@@ -21,18 +21,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Game\Data\" />
+    <Folder Include="Areas\Administration\Controllers\" />
+    <Folder Include="Areas\Administration\Models\" />
+    <Folder Include="Areas\Administration\Views\" />
     <Folder Include="Areas\Game\Models\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\Game\Views\Game\Tavern.cshtml">
+    <Content Update="Areas\Game\Views\Tavern\Tavern.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Game\Views\Game\University.cshtml">
+    <Content Update="Areas\Game\Views\University\University.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Game\Views\Game\Blacksmith.cshtml">
+    <Content Update="Areas\Game\Views\Blacksmith\Blacksmith.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\Game\Views\Shared\Error.cshtml">

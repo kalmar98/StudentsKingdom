@@ -8,10 +8,12 @@ namespace StudentsKingdom.Data.Services.Contracts
 {
     public interface IAccountService
     {
-        Task Login(StudentsKingdomUser user, bool rememberMe);
-        Task Logout();
+        Task<StudentsKingdomUser> CreateUserAsync(string username, string email);
+        Task<StudentsKingdomUser> RegisterAsync(string username, string password, string email);
+        Task LoginAsync(StudentsKingdomUser user, bool rememberMe);
+        Task LogoutAsync();
         StudentsKingdomUser GetUserByNameAndPassword(string username, string password);
-        Task SeedAdmin();
-        Task SeedRoles();
+        Task SeedAdminAsync();
+        Task SeedRolesAsync();
     }
 }

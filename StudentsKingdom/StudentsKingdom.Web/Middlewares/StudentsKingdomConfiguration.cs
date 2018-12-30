@@ -9,19 +9,20 @@ using System.Threading.Tasks;
 
 namespace StudentsKingdom.Web.Middlewares
 {
-    public class AdminConfiguration
+    public class StudentsKingdomConfiguration
     {
         private readonly RequestDelegate next;
 
-        public AdminConfiguration(RequestDelegate next)
+        public StudentsKingdomConfiguration(RequestDelegate next)
         {
             this.next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, IAccountService accountService)
+        public async Task InvokeAsync(HttpContext context, IAccountService accountService, IItemService itemService)
         {
-            await accountService.SeedRoles();
-            await accountService.SeedAdmin();
+            await accountService.SeedRolesAsync();
+            await accountService.SeedAdminAsync();
+            await itemService.SeedItemsAsync();
             await this.next(context);
         }
 

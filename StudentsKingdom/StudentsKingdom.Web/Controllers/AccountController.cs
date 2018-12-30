@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StudentsKingdom.Common.Enums;
 using StudentsKingdom.Data.Services.Contracts;
 using StudentsKingdom.Web.Models;
 using System;
@@ -23,7 +24,7 @@ namespace StudentsKingdom.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         { 
             if (this.ModelState.IsValid)
             {
@@ -31,12 +32,16 @@ namespace StudentsKingdom.Web.Controllers
 
                 if (user != null)
                 {
+                    await this.accountService.LoginAsync(user, model.RememberMe);
 
-                    return this.RedirectToPage("");
+                    if(user.UserName == StudentsKingdomUserRoles.Admin.ToString())
+                    {
+                        return this.Redirect("/Administration");
+                    }
+
+                    return this.Redirect("/Game");
                 }
 
-
-                
             }
 
             this.TempData["LoginError"] = "Yes";
@@ -50,9 +55,24 @@ namespace StudentsKingdom.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            if (this.ModelState.IsValid)
+            {
+                var user = await this.accountService.RegisterAsync(model.Username, model.Password, model.Email);
+
+                await this.accountService.LoginAsync(user, false);
+
+                return this.Redirect("/Game");
+            }
+
             return this.View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await this.accountService.LogoutAsync();
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

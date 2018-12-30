@@ -1,5 +1,6 @@
 ﻿using StudentsKingdom.Data.Common;
 using StudentsKingdom.Data.Common.Contracts;
+using System.Collections.Generic;
 
 namespace StudentsKingdom.Data.Models
 {
@@ -13,7 +14,7 @@ namespace StudentsKingdom.Data.Models
         public int InventoryId { get; set; }
         public Inventory Inventory { get; set; }
 
-
+        public IList<Item> EquippedItems { get; set; } = new List<Item>();
 
     }
 }

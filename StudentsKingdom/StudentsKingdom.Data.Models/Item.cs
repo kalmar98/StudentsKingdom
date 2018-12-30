@@ -7,15 +7,22 @@ using System.Text;
 
 namespace StudentsKingdom.Data.Models
 {
-    public class Item : BaseModel<int>, IName, ICoins
+    public class Item : BaseModel<int>, IName, ICoins, IImage
     {
         public string Name { get; set; }
 
         public ItemType Type { get; set; }
 
+        public int Coins { get; set; }
+
+        public string Image { get; set; }
+
         public int StatsId { get; set; }
         public Stats Stats { get; set; }
 
-        public int Coins { get; set; }
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

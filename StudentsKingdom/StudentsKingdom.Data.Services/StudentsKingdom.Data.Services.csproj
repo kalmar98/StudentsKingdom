@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StudentsKingdom.Data.Models\StudentsKingdom.Data.Models.csproj" />
+    <ProjectReference Include="..\StudentsKingdom.Data\StudentsKingdom.Data.csproj" />
   </ItemGroup>
 
 </Project>

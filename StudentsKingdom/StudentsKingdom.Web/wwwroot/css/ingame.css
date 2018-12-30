@@ -30,12 +30,16 @@
     opacity: 0.6;
 }
 
-.username{
-    background-color: #ff6a00;
-    color: #000000;
+.username {
+    
+    color: #fff;
     opacity: 0.6;
-    border: 5px double #000000;
+    
+    font-size: 3vw;
+
 }
+
+
 
 .avatar {
     background: url(/images/avatar.png) no-repeat;

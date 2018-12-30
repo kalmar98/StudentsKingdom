@@ -10,8 +10,8 @@ using StudentsKingdom.Data;
 namespace StudentsKingdom.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181224005806_test")]
-    partial class test
+    [Migration("20181230191534_NewVersionOfAllEntities")]
+    partial class NewVersionOfAllEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -137,9 +137,143 @@ namespace StudentsKingdom.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Coins");
+
+                    b.Property<int>("InventoryId");
+
+                    b.Property<int>("StatsId");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("InventoryId");
+
+                    b.HasIndex("StatsId");
+
                     b.ToTable("Characters");
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Enemy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("StatsId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StatsId");
+
+                    b.ToTable("Enemies");
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Inventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Capacity");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Inventories");
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Item", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("CharacterId");
+
+                    b.Property<int>("Coins");
+
+                    b.Property<string>("Image");
+
+                    b.Property<int?>("InventoryId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("StatsId");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CharacterId");
+
+                    b.HasIndex("InventoryId");
+
+                    b.HasIndex("StatsId");
+
+                    b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Location", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("InventoryId");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int>("Type");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InventoryId");
+
+                    b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Quest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Coins");
+
+                    b.Property<int>("EnemyId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EnemyId");
+
+                    b.ToTable("Quests");
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Stats", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Agility");
+
+                    b.Property<int>("Damage");
+
+                    b.Property<int>("Defence");
+
+                    b.Property<int>("Health");
+
+                    b.Property<int>("Intellect");
+
+                    b.Property<int>("Strength");
+
+                    b.Property<int>("Vitality");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stats");
                 });
 
             modelBuilder.Entity("StudentsKingdom.Data.Models.StudentsKingdomUser", b =>
@@ -149,7 +283,7 @@ namespace StudentsKingdom.Data.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<int>("CharacterId");
+                    b.Property<int?>("CharacterId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -242,12 +376,63 @@ namespace StudentsKingdom.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Character", b =>
+                {
+                    b.HasOne("StudentsKingdom.Data.Models.Inventory", "Inventory")
+                        .WithMany()
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StudentsKingdom.Data.Models.Stats", "Stats")
+                        .WithMany()
+                        .HasForeignKey("StatsId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Enemy", b =>
+                {
+                    b.HasOne("StudentsKingdom.Data.Models.Stats", "Stats")
+                        .WithMany()
+                        .HasForeignKey("StatsId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Item", b =>
+                {
+                    b.HasOne("StudentsKingdom.Data.Models.Character")
+                        .WithMany("EquippedItems")
+                        .HasForeignKey("CharacterId");
+
+                    b.HasOne("StudentsKingdom.Data.Models.Inventory")
+                        .WithMany("Items")
+                        .HasForeignKey("InventoryId");
+
+                    b.HasOne("StudentsKingdom.Data.Models.Stats", "Stats")
+                        .WithMany()
+                        .HasForeignKey("StatsId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Location", b =>
+                {
+                    b.HasOne("StudentsKingdom.Data.Models.Inventory", "Inventory")
+                        .WithMany()
+                        .HasForeignKey("InventoryId");
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Quest", b =>
+                {
+                    b.HasOne("StudentsKingdom.Data.Models.Enemy", "Enemy")
+                        .WithMany()
+                        .HasForeignKey("EnemyId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("StudentsKingdom.Data.Models.StudentsKingdomUser", b =>
                 {
                     b.HasOne("StudentsKingdom.Data.Models.Character", "Character")
                         .WithMany()
-                        .HasForeignKey("CharacterId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CharacterId");
                 });
 #pragma warning restore 612, 618
         }

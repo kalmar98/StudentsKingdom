@@ -23,7 +23,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg">
-        <a class="logo-hover" asp-area="Game" asp-action="Dorm">
+        <a class="logo-hover" asp-area="Game" asp-controller="Dorm" asp-action="Dorm">
             <figure><img class="logo" src="~/images/logo.png" /></figure>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,19 +33,22 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link navbar-sk-btn" asp-area="Game" asp-action="Dorm">Dorm</a> @*home*@
+                    <a class="nav-link navbar-sk-btn" asp-area="Game" asp-controller="Dorm" asp-action="Dorm">Dorm</a> @*home*@
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link navbar-sk-btn" asp-area="Game" asp-action="Canteen">Canteen</a> @*buy food*@
+                    <a class="nav-link navbar-sk-btn" asp-area="Game"  asp-controller="Canteen" asp-action="Canteen">Canteen</a> @*buy food*@
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link navbar-sk-btn" asp-area="Game" asp-action="Blacksmith">Blacksmith</a> @*buy armours and weapons*@
+                    <a class="nav-link navbar-sk-btn" asp-area="Game" asp-controller="Blacksmith" asp-action="Blacksmith">Blacksmith</a> @*buy armours and weapons*@
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link navbar-sk-btn" asp-area="Game" asp-action="Tavern">Tavern</a> @*pvp*@
+                    <a class="nav-link navbar-sk-btn" asp-area="Game" asp-controller="Tavern" asp-action="Tavern">Tavern</a> @*pvp*@
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link navbar-sk-btn" asp-area="Game" asp-action="University">University</a> @*training and quests*@
+                    <a class="nav-link navbar-sk-btn" asp-area="Game" asp-controller="University" asp-action="University">University</a> @*training and quests*@
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navbar-sk-btn" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a> @*logout*@
                 </li>
             </ul>
           

@@ -8,9 +8,9 @@ namespace StudentsKingdom.Web.Middlewares
 {
     public static class Extensions
     {
-        public static IApplicationBuilder UseAdminConfiguration(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseStudentsKingdomConfiguration(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<AdminConfiguration>();
+            return builder.UseMiddleware<StudentsKingdomConfiguration>();
         }
     }
 }
