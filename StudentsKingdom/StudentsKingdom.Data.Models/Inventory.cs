@@ -10,7 +10,7 @@ namespace StudentsKingdom.Data.Models
     {
         public int Capacity { get; set; }
 
-        public IList<Item> Items { get; set; } = new List<Item>();
+        public virtual IList<Item> Items { get; set; } = new List<Item>();
 
 
     }

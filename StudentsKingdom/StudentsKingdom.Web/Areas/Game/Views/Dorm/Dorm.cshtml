@@ -1,16 +1,39 @@
-﻿
+﻿@model StudentsKingdomUser
 @{
     ViewData["Title"] = "Dorm";
 }
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4">
-            <partial name="_UserNameAvatarStatsPartial" />
-        </div>
-        <div class="col-md-8">
 
+<div class="row">
+    <div class="col-md-4">
+        <div class="username center font-moria-citadel">@User.Identity.Name</div>
+        <div class="avatar-wrap mx-auto">
+            <div class="avatar"></div>
+            <div id="stats" data-id="@Model.Character.StatsId" class="avatar-description-layer">
+                <div class="avatar-description">
+                    <div id="statsInfo">
+
+                    </div>
+                </div>
+            </div>
         </div>
+        <div>
+            <div class="col-md-3">
+                <p>Weapon</p>
+            </div>
+            <div class="col-md-3">
+                <p>Armour</p>
+            </div>
+            <div class="col-md-3">
+                <p>Relic</p>
+            </div>
+        </div>
+
     </div>
 </div>
 
+@section Scripts
+    {
+    <script src="~/js/showStatsDynamically.js"></script>
+
+}

@@ -1,0 +1,10 @@
+﻿@model StatsViewModel
+
+@foreach (var stat in this.Model.GetType().GetProperties())
+{
+    <h5 class="stat">@($"{stat.Name} {stat.GetValue(this.Model)}")</h5>
+}
+
+
+
+

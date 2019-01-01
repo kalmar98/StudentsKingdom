@@ -21,5 +21,8 @@ namespace StudentsKingdom.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<Quest> Quests { get; set; }
         public DbSet<Stats> Stats { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            => optionsBuilder.UseLazyLoadingProxies();
     }
 }

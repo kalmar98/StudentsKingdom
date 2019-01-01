@@ -24,7 +24,6 @@
     <Folder Include="Areas\Administration\Controllers\" />
     <Folder Include="Areas\Administration\Models\" />
     <Folder Include="Areas\Administration\Views\" />
-    <Folder Include="Areas\Game\Models\" />
   </ItemGroup>
 
   <ItemGroup>

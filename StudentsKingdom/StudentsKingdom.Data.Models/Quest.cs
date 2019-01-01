@@ -13,6 +13,6 @@ namespace StudentsKingdom.Data.Models
         public int Coins { get; set; }
 
         public int EnemyId { get; set; }
-        public Enemy Enemy { get; set; }
+        public virtual Enemy Enemy { get; set; }
     }
 }

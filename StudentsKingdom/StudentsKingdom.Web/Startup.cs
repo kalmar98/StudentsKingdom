@@ -19,6 +19,7 @@ using StudentsKingdom.Data.Services;
 using StudentsKingdom.Data.Services.Contracts;
 using AutoMapper;
 using StudentsKingdom.Common.Constants.User;
+using StudentsKingdom.Web.Controllers;
 
 namespace StudentsKingdom.Web
 {
@@ -81,7 +82,7 @@ namespace StudentsKingdom.Web
             services.AddAutoMapper();
 
             AutoMapperConfig.RegisterMappings(
-                typeof(AccountService).Assembly
+                this.GetType().Assembly
 
                 );
 

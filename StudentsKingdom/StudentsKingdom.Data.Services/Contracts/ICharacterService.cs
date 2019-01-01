@@ -8,6 +8,7 @@ namespace StudentsKingdom.Data.Services.Contracts
 {
     public interface ICharacterService
     {
+        
         Task<Character> CreateCharacterAsync(int coins, Stats stats,Inventory inventory);
         Task<int> GetDamageValueAsync(int strength, IList<Item> EquippedItems = null);
         Task<int> GetHealthValueAsync(int vitality, IList<Item> EquippedItems = null);

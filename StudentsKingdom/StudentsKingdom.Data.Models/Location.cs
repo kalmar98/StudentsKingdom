@@ -12,7 +12,7 @@ namespace StudentsKingdom.Data.Models
         public string Name { get; set; }
 
         public int? InventoryId { get; set; }
-        public Inventory Inventory { get; set; }
+        public virtual Inventory Inventory { get; set; }
 
         public LocationType Type { get; set; }
     }

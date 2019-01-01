@@ -7,6 +7,7 @@ using StudentsKingdom.Data.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,6 +63,11 @@ namespace StudentsKingdom.Data.Services
             return  this.signInManager.UserManager.Users.FirstOrDefault(u =>
                 u.UserName == username && signInManager.CheckPasswordSignInAsync(u, password, false).Result.Succeeded);
 
+        }
+
+        public async Task<StudentsKingdomUser> GetUserAsync(ClaimsPrincipal claimsPrincipal)
+        {
+            return  await this.signInManager.UserManager.GetUserAsync(claimsPrincipal);
         }
 
         public async Task<StudentsKingdomUser> CreateUserAsync(string username, string email)
@@ -128,5 +134,6 @@ namespace StudentsKingdom.Data.Services
 
         }
 
+        
     }
 }

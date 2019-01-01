@@ -11,7 +11,7 @@ namespace StudentsKingdom.Data.Models
         public string Name { get; set; }
 
         public int StatsId { get; set; }
-        public Stats Stats { get; set; }
+        public virtual Stats Stats { get; set; }
 
 
     }

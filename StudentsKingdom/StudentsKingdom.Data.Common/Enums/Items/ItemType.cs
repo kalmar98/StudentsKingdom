@@ -8,6 +8,7 @@ namespace StudentsKingdom.Data.Common.Enums.Items
     {
         Weapon = 0,
         Armour = 1,
-        Consumable = 2
+        Consumable = 2,
+        Relic = 3
     }
 }

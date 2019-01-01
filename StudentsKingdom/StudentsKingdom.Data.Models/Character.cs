@@ -9,12 +9,12 @@ namespace StudentsKingdom.Data.Models
         public int Coins { get; set; }
 
         public int StatsId { get; set; }
-        public Stats Stats { get; set; }
+        public virtual Stats Stats { get; set; }
 
         public int InventoryId { get; set; }
-        public Inventory Inventory { get; set; }
+        public virtual Inventory Inventory { get; set; }
 
-        public IList<Item> EquippedItems { get; set; } = new List<Item>();
+        public virtual IList<Item> EquippedItems { get; set; } = new List<Item>();
 
     }
 }

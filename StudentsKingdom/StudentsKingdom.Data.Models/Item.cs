@@ -18,7 +18,7 @@ namespace StudentsKingdom.Data.Models
         public string Image { get; set; }
 
         public int StatsId { get; set; }
-        public Stats Stats { get; set; }
+        public virtual Stats Stats { get; set; }
 
         public override string ToString()
         {
