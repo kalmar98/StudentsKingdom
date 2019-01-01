@@ -91,6 +91,7 @@ namespace StudentsKingdom.Web
             services.AddScoped<IStatsService, StatsService>();
             services.AddScoped<ICharacterService, CharacterService>();
             services.AddScoped<IInventoryService, InventoryService>();
+            services.AddScoped<ILocationService, LocationService>();
 
             
 

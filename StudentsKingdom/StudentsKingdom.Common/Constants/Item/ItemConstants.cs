@@ -11,6 +11,6 @@ namespace StudentsKingdom.Common.Constants.Item
         public const string DefaultSwordName = "Steel Sword";
         public const int DefaultSwordPrice = 20;
         public const int DefaultSwordDamage = 10;
-        public const string DefaultSwordImage = "~/images/sword.png";
+        public const string DefaultSwordImage = "/images/sword.png";
     }
 }

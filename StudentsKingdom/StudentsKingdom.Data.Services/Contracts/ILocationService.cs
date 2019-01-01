@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace StudentsKingdom.Data.Services.Contracts
 {
-    public interface IInventoryService
+    public interface ILocationService
     {
-        Task<Inventory> CreateInventoryAsync(LocationType? locationType = null);
-        Task<bool> IsInventoryFullAsync(Inventory inventory);
+        Task SeedLocationsAsync();
+        Task<Location> CreateLocationAsync(string name, Inventory inventory, LocationType type);
+        Task<Location> GetLocationByTypeAsync(LocationType type);
     }
 }

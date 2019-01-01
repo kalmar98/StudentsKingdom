@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StudentsKingdom.Common.Constants.Item;
 using StudentsKingdom.Data.Common.Enums.Items;
 using StudentsKingdom.Data.Models;
@@ -39,6 +40,16 @@ namespace StudentsKingdom.Data.Services
             await this.context.SaveChangesAsync();
 
             return item;
+        }
+
+        public async Task<Item> GetItemByIdAsync(int id)
+        {
+            return await this.context.Items.SingleAsync(x => x.Id == id);
+        }
+
+        public async Task<Item> GetItemByNameAsync(string name)
+        {
+            return await this.context.Items.SingleAsync(x => x.Name == name);
         }
 
         public async Task SeedItemsAsync()
