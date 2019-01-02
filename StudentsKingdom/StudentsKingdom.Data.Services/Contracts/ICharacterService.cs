@@ -13,5 +13,7 @@ namespace StudentsKingdom.Data.Services.Contracts
         Task<int> GetDamageValueAsync(int strength, IList<Item> EquippedItems = null);
         Task<int> GetHealthValueAsync(int vitality, IList<Item> EquippedItems = null);
         Task<int> GetDefenceValueAsync(IList<Item> EquippedItems = null);
+        Task<bool> CanAffordAsync(int budget, Item item);
+        Task BuyAsync(Character character, Item item);
     }
 }

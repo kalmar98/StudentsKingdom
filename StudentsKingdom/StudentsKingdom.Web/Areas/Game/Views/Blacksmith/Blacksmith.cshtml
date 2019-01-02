@@ -10,9 +10,9 @@
     <div class="items-wrap" multiple>
         @foreach (var item in @Model.Inventory.Items)
         {
-            
+
             <div class="item-container">
-                <partial for="@item" name="_ItemPartial"/>
+                <partial for="@item" name="_ItemPartial" />
                 <input type="radio" name="itemId" value="@item.Id" />
             </div>
 
@@ -24,6 +24,14 @@
 
 </form>
 
+@section Scripts
+{
+    @if (this.TempData.ContainsKey(ExceptionMessages.ViewDataErrorKey))
+    {
+        <script src="~/js/alertExceptions.js" id="error" data-bind="@this.TempData[ExceptionMessages.ViewDataErrorKey].ToString()"></script>
+        this.TempData.Clear();
+    }
 
+}
 
 

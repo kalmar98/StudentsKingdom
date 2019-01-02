@@ -40,6 +40,13 @@
 @section Scripts
     {
     <partial name="_ValidationScriptsPartial" />
+
+    @if (this.TempData.ContainsKey(ExceptionMessages.ViewDataErrorKey))
+    {
+        <script src="~/js/alertExceptions.js" data-bind="@this.TempData[ExceptionMessages.ViewDataErrorKey].ToString()" id="error"></script>
+        this.TempData.Clear();
+    }
+
 }
 
 

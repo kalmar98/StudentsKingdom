@@ -1,4 +1,4 @@
-﻿$("#stats").hover(function () {
+﻿$("#stats").mouseenter(function () {
     var setData = "";
     var element = $(this);
     var id = element.attr("data-id");

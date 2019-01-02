@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StudentsKingdom.Common.Constants;
 using StudentsKingdom.Common.Enums;
 using StudentsKingdom.Data.Services.Contracts;
 using StudentsKingdom.Web.Models;
@@ -28,13 +29,13 @@ namespace StudentsKingdom.Web.Controllers
         { 
             if (this.ModelState.IsValid)
             {
-                var user = this.accountService.GetUserByNameAndPassword(model.Username, model.Password);
+                var user = await this.accountService.GetUserAsync(model.Username, model.Password);
 
                 if (user != null)
                 {
                     await this.accountService.LoginAsync(user, model.RememberMe);
 
-                    if(user.UserName == StudentsKingdomUserRoles.Admin.ToString())
+                    if(user.UserName == UserRoles.Admin.ToString())
                     {
                         return this.Redirect("/Administration");
                     }
@@ -44,7 +45,7 @@ namespace StudentsKingdom.Web.Controllers
 
             }
 
-            this.TempData["LoginError"] = "Yes";
+            this.TempData[ExceptionMessages.ViewDataErrorKey] = ExceptionMessages.LoginError;
             return this.RedirectToAction("Index", "Home");
 
         }
@@ -59,13 +60,20 @@ namespace StudentsKingdom.Web.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                var user = await this.accountService.RegisterAsync(model.Username, model.Password, model.Email);
+                var usernameOrEmailTaken = await this.accountService.AreUsernameOrEmailTakenAsync(model.Username, model.Email);
 
-                await this.accountService.LoginAsync(user, false);
+                if (!usernameOrEmailTaken)
+                {
+                    var user = await this.accountService.RegisterAsync(model.Username, model.Password, model.Email);
 
-                return this.Redirect("/Game");
+                    await this.accountService.LoginAsync(user, false);
+
+                    return this.Redirect("/Game");
+                }
+
             }
 
+            this.TempData[ExceptionMessages.ViewDataErrorKey] = ExceptionMessages.RegisterError;
             return this.View();
         }
 

@@ -7,7 +7,7 @@ namespace StudentsKingdom.Common.Constants.User
 {
     public static class UserConstants
     {
-        public const string RoleUser = "User";
+        public const string RolePlayer = "Player";
         public const string RoleAdmin = "Admin";
 
         public const int UsernameMinLength = 3;
@@ -16,6 +16,6 @@ namespace StudentsKingdom.Common.Constants.User
         public const int PasswordMinLength = 5;
         public const int PasswordMaxLength = 15;
 
-        public const string ValidUsernameRegex = @"[\w-.*~]+";
+        public const string ValidUsernameAndPasswordRegex = @"[\w!$-]+";
     }
 }

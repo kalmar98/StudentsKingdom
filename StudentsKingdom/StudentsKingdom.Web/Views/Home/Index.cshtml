@@ -7,13 +7,17 @@
 
 <div data-url="@Url.Action("LoginWindow","Account")" class="modal fade px-0" role="dialog" id="loginModal"></div>
 
+
 @section Scripts
     {
-    <script src="~/js/loginPopUp.js"></script>
-    @if (this.TempData["LoginError"].ToString() == "Yes")
+    <script src="~/js/loginPopUpUponClick.js"></script>
+    @if (this.TempData.ContainsKey(ExceptionMessages.ViewDataErrorKey))
     {
-        <script src="~/js/loginPopUpReappear.js"></script>
+        <script src="~/js/alertExceptions.js" data-bind="@this.TempData[ExceptionMessages.ViewDataErrorKey].ToString()" id="error"></script>
+        <script src="~/js/loginPopUpUponError.js"></script>
+        this.TempData.Clear();
     }
+
 }
 
 

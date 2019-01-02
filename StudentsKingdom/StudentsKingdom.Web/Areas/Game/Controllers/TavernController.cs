@@ -9,7 +9,7 @@ using StudentsKingdom.Common.Constants.User;
 namespace StudentsKingdom.Web.Areas.Game.Controllers
 {
     [Area("Game")]
-    [Authorize(Roles = UserConstants.RoleUser)]
+    [Authorize(Roles = UserConstants.RolePlayer)]
     public class TavernController : Controller
     {
         [Route("/Game/Tavern")]

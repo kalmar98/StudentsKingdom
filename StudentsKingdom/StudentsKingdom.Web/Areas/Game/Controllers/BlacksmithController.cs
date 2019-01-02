@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using StudentsKingdom.Common.Constants;
 using StudentsKingdom.Common.Constants.User;
 using StudentsKingdom.Data.Common.Enums.Locations;
 using StudentsKingdom.Data.Services.Contracts;
@@ -12,21 +13,23 @@ using StudentsKingdom.Data.Services.Contracts;
 namespace StudentsKingdom.Web.Areas.Game.Controllers
 {
     [Area("Game")]
-    [Authorize(Roles = UserConstants.RoleUser)]
+    [Authorize(Roles = UserConstants.RolePlayer)]
     public class BlacksmithController : Controller
     {
         private readonly ILocationService locationService;
         private readonly IItemService itemService;
         private readonly IAccountService accountService;
         private readonly IInventoryService inventoryService;
+        private readonly ICharacterService characterService;
         private readonly IMapper mapper;
 
-        public BlacksmithController(ILocationService locationService, IItemService itemService, IAccountService accountService, IInventoryService inventoryService, IMapper mapper)
+        public BlacksmithController(ILocationService locationService, IItemService itemService, IAccountService accountService, IInventoryService inventoryService, ICharacterService characterService, IMapper mapper)
         {
             this.locationService = locationService;
             this.itemService = itemService;
             this.accountService = accountService;
             this.inventoryService = inventoryService;
+            this.characterService = characterService;
             this.mapper = mapper;
         }
 
@@ -46,6 +49,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         {
             if (itemId == 0)
             {
+                this.TempData[ExceptionMessages.ViewDataErrorKey] = ExceptionMessages.ChooseItem;
                 return this.Redirect("/Game/Blacksmith");
             }
 
@@ -56,11 +60,17 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
 
             if (await this.inventoryService.IsInventoryFullAsync(user.Character.Inventory))
             {
-                //да подам стойност за проверка
+                this.TempData[ExceptionMessages.ViewDataErrorKey] = ExceptionMessages.FullInventory;
                 return this.Redirect("/Game/Blacksmith");
             }
 
-            //ако няма пари
+            if (!await this.characterService.CanAffordAsync(user.Character.Coins, item))
+            {
+                this.TempData[ExceptionMessages.ViewDataErrorKey] = ExceptionMessages.CannotAfford;
+                return this.Redirect("/Game/Blacksmith");
+            }
+
+            await this.characterService.BuyAsync(user.Character, item);
 
             return this.Redirect("/Game");
         }

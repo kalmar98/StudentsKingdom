@@ -10,7 +10,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
 {
 
     [Area("Game")]
-    [Authorize(Roles = UserConstants.RoleUser)]
+    [Authorize(Roles = UserConstants.RolePlayer)]
     public class CanteenController : Controller
     {
         [Route("/Game/Canteen")]

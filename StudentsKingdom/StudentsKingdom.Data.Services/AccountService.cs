@@ -22,7 +22,7 @@ namespace StudentsKingdom.Data.Services
         private readonly IInventoryService inventoryService;
         private readonly IMapper mapper;
 
-        public AccountService(SignInManager<StudentsKingdomUser> signInManager, RoleManager<IdentityRole> roleManager, ICharacterService characterService,IStatsService statsService,IInventoryService inventoryService, IMapper mapper)
+        public AccountService(SignInManager<StudentsKingdomUser> signInManager, RoleManager<IdentityRole> roleManager, ICharacterService characterService, IStatsService statsService, IInventoryService inventoryService, IMapper mapper)
         {
             this.signInManager = signInManager;
             this.roleManager = roleManager;
@@ -38,7 +38,7 @@ namespace StudentsKingdom.Data.Services
 
             var createUserResult = this.signInManager.UserManager.CreateAsync(user, password).Result;
 
-            var createRoleResult = this.signInManager.UserManager.AddToRoleAsync(user, StudentsKingdomUserRoles.User.ToString()).Result;
+            var createRoleResult = this.signInManager.UserManager.AddToRoleAsync(user, UserRoles.Player.ToString()).Result;
 
             if (!createUserResult.Succeeded || !createRoleResult.Succeeded)
             {
@@ -58,16 +58,27 @@ namespace StudentsKingdom.Data.Services
             await this.signInManager.SignOutAsync();
         }
 
-        public StudentsKingdomUser GetUserByNameAndPassword(string username, string password)
-        {
-            return  this.signInManager.UserManager.Users.FirstOrDefault(u =>
-                u.UserName == username && signInManager.CheckPasswordSignInAsync(u, password, false).Result.Succeeded);
-
-        }
-
         public async Task<StudentsKingdomUser> GetUserAsync(ClaimsPrincipal claimsPrincipal)
         {
-            return  await this.signInManager.UserManager.GetUserAsync(claimsPrincipal);
+            return await this.signInManager.UserManager.GetUserAsync(claimsPrincipal);
+        }
+
+        public async Task<StudentsKingdomUser> GetUserAsync(string username, string password)
+        {
+            var user = await this.signInManager.UserManager.FindByNameAsync(username);
+
+            if (user != null)
+            {
+                var passwordCheck = await signInManager.CheckPasswordSignInAsync(user, password, false);
+
+                if (passwordCheck.Succeeded)
+                {
+                    return user;
+                }
+            }
+
+            return null;
+
         }
 
         public async Task<StudentsKingdomUser> CreateUserAsync(string username, string email)
@@ -94,9 +105,18 @@ namespace StudentsKingdom.Data.Services
             };
         }
 
+        public async Task<bool> AreUsernameOrEmailTakenAsync(string username, string email)
+        {
+            var userByName = await this.signInManager.UserManager.FindByNameAsync(username);
+            var userByEmail = await this.signInManager.UserManager.FindByEmailAsync(email);
+
+
+            return userByName != null || userByEmail != null ? true : false;
+        }
+
         public async Task SeedAdminAsync()
         {
-            var adminRoleName = StudentsKingdomUserRoles.Admin.ToString();
+            var adminRoleName = UserRoles.Admin.ToString();
 
             if (!signInManager.UserManager.Users.Any(x => x.UserName == adminRoleName))
             {
@@ -106,7 +126,7 @@ namespace StudentsKingdom.Data.Services
                     UserName = adminRoleName,
                     Email = "admin@adm.in",
                     SecurityStamp = Guid.NewGuid().ToString()
-                    
+
                 };
 
                 signInManager.UserManager.PasswordHasher.HashPassword(user, adminRoleName);
@@ -120,7 +140,7 @@ namespace StudentsKingdom.Data.Services
 
         public async Task SeedRolesAsync()
         {
-            var roles = Enum.GetValues(typeof(StudentsKingdomUserRoles));
+            var roles = Enum.GetValues(typeof(UserRoles));
             foreach (var role in roles)
             {
                 var roleName = role.ToString();
@@ -134,6 +154,6 @@ namespace StudentsKingdom.Data.Services
 
         }
 
-        
+
     }
 }

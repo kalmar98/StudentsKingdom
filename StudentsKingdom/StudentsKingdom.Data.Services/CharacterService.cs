@@ -39,34 +39,45 @@ namespace StudentsKingdom.Data.Services
 
         public async Task<int> GetDamageValueAsync(int strength, IList<Item> EquippedItems = null)
         {
-            
-            if(this.EquippedItemsNullOrEmpty(EquippedItems))
+            return await Task.Run(() =>
             {
-                return strength * CharacterConstants.DamageMultiplier;
-            }
+                if (this.EquippedItemsNullOrEmpty(EquippedItems))
+                {
+                    return strength * CharacterConstants.DamageMultiplier;
+                }
 
 
-            return 0;
+                return 0;
+            });
+            
         }
 
         public async Task<int> GetHealthValueAsync(int vitality, IList<Item> EquippedItems = null)
         {
-            if (this.EquippedItemsNullOrEmpty(EquippedItems))
+            return await Task.Run(() =>
             {
-                return vitality * CharacterConstants.HealthMultiplier;
-            }
+                if (this.EquippedItemsNullOrEmpty(EquippedItems))
+                {
+                    return vitality * CharacterConstants.HealthMultiplier;
+                }
 
-            return 0;
+                return 0;
+            });
+            
         }
 
         public async Task<int> GetDefenceValueAsync(IList<Item> EquippedItems = null)
         {
-            if (this.EquippedItemsNullOrEmpty(EquippedItems))
+            return await Task.Run(() =>
             {
-                return 0;
-            }
+                if (this.EquippedItemsNullOrEmpty(EquippedItems))
+                {
+                    return CharacterConstants.StartingArmourValue;
+                }
 
-            return 0;
+                return 0;
+            });
+            
         }
 
         private bool EquippedItemsNullOrEmpty(IList<Item> EquippedItems)
@@ -79,6 +90,19 @@ namespace StudentsKingdom.Data.Services
             return false;
         }
 
-        
+        public async Task<bool> CanAffordAsync(int budget, Item item)
+        {
+            return await Task.Run(() =>
+            {
+                return budget - item.Coins >= 0;
+            });
+        }
+
+        public async Task BuyAsync(Character character, Item item)
+        {
+            character.Coins -= item.Coins;
+            character.Inventory.Items.Add(item);
+            await this.context.SaveChangesAsync();
+        }
     }
 }

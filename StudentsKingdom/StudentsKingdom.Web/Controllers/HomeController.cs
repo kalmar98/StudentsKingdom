@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StudentsKingdom.Common.Enums;
 using StudentsKingdom.Web.Models;
 
 namespace StudentsKingdom.Web.Controllers
@@ -15,13 +16,15 @@ namespace StudentsKingdom.Web.Controllers
         {
             if (this.User.Identity.IsAuthenticated)
             {
+                if (this.User.IsInRole(UserRoles.Admin.ToString()))
+                {
+                    return this.Redirect("/Administration");
+                }
+
                 return this.Redirect("/Game");
             }
 
-            if(!this.TempData.ContainsKey("LoginError"))
-            {
-                this.TempData["LoginError"] = "No";
-            }
+
             
             return this.View();
         }

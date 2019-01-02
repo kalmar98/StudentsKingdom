@@ -4,9 +4,9 @@ using System.Text;
 
 namespace StudentsKingdom.Common.Enums
 {
-    public enum StudentsKingdomUserRoles
+    public enum UserRoles
     {
         Admin = 0,
-        User = 1
+        Player = 1
     }
 }

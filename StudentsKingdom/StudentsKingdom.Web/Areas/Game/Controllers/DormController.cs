@@ -13,7 +13,7 @@ using StudentsKingdom.Web.Areas.Game.Models.Dorm;
 namespace StudentsKingdom.Web.Areas.Game.Controllers
 {
     [Area("Game")]
-    [Authorize(Roles = UserConstants.RoleUser)]
+    [Authorize(Roles = UserConstants.RolePlayer)]
     public class DormController : Controller
     {
         private readonly IStatsService statsService;

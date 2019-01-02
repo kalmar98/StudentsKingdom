@@ -1,9 +1,6 @@
-﻿using StudentsKingdom.Common.Constants.User;
-using System;
-using System.Collections.Generic;
+﻿using StudentsKingdom.Common.Constants;
+using StudentsKingdom.Common.Constants.User;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StudentsKingdom.Web.Models
 {
@@ -11,11 +8,12 @@ namespace StudentsKingdom.Web.Models
     {
         [Required]
         [StringLength(UserConstants.UsernameMaxLength,MinimumLength = UserConstants.UsernameMinLength)]
-        [RegularExpression(UserConstants.ValidUsernameRegex)]
+        [RegularExpression(UserConstants.ValidUsernameAndPasswordRegex, ErrorMessage = ExceptionMessages.InvalidUsernameOrPasswordRegex)]
         public string Username { get; set; }
 
         [Required]
         [StringLength(UserConstants.PasswordMaxLength, MinimumLength = UserConstants.PasswordMinLength)]
+        [RegularExpression(UserConstants.ValidUsernameAndPasswordRegex, ErrorMessage = ExceptionMessages.InvalidUsernameOrPasswordRegex)]
         public string Password { get; set; }
 
         [Compare(nameof(Password))]

@@ -9,12 +9,14 @@ namespace StudentsKingdom.Data.Services.Contracts
 {
     public interface IAccountService
     {
-        Task<StudentsKingdomUser> GetUserAsync(ClaimsPrincipal claimsPrincipal);
+        Task<bool> AreUsernameOrEmailTakenAsync(string username, string email);
+        
         Task<StudentsKingdomUser> CreateUserAsync(string username, string email);
         Task<StudentsKingdomUser> RegisterAsync(string username, string password, string email);
         Task LoginAsync(StudentsKingdomUser user, bool rememberMe);
         Task LogoutAsync();
-        StudentsKingdomUser GetUserByNameAndPassword(string username, string password);
+        Task<StudentsKingdomUser> GetUserAsync(ClaimsPrincipal claimsPrincipal);
+        Task<StudentsKingdomUser> GetUserAsync(string username, string password);
         Task SeedAdminAsync();
         Task SeedRolesAsync();
     }
