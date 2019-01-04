@@ -14,12 +14,14 @@ namespace StudentsKingdom.Data.Services
     public class InventoryService : IInventoryService
     {
         private readonly ApplicationDbContext context;
+        private readonly IInventoryItemService inventoryItemService;
         private readonly IItemService itemService;
         private readonly IMapper mapper;
 
-        public InventoryService(ApplicationDbContext context, IItemService itemService, IMapper mapper)
+        public InventoryService(ApplicationDbContext context, IInventoryItemService inventoryItemService, IItemService itemService, IMapper mapper)
         {
             this.context = context;
+            this.inventoryItemService = inventoryItemService;
             this.itemService = itemService;
             this.mapper = mapper;
         }
@@ -31,21 +33,29 @@ namespace StudentsKingdom.Data.Services
                 Capacity = CharacterConstants.InventoryCapacity
             };
 
+            await this.context.Inventories.AddAsync(inventory);
+            await this.context.SaveChangesAsync();
+
             if (locationType != null)
             {
-                if(locationType == LocationType.Blacksmith)
+                if (locationType == LocationType.Blacksmith)
                 {
                     //малко дървено, но за сега :)
-                    inventory.Items.Add(await this.itemService.GetItemByNameAsync(ItemConstants.DefaultSwordName));
-                
+
+                    inventory.InventoryItems.Add(
+                        await this.inventoryItemService.CreateInventoryItemAsync(
+                            inventory,
+                            await this.itemService.GetItemByNameAsync(ItemConstants.DefaultSwordName)
+                        ));
+                        
+
                 }
-                else if(locationType == LocationType.Canteen)
+                else if (locationType == LocationType.Canteen)
                 {
                     //under construction
                 }
             }
 
-            await this.context.Inventories.AddAsync(inventory);
             await this.context.SaveChangesAsync();
 
             return inventory;
@@ -53,11 +63,11 @@ namespace StudentsKingdom.Data.Services
 
         public async Task<bool> IsInventoryFullAsync(Inventory inventory)
         {
-            return await Task.Run(() => 
+            return await Task.Run(() =>
             {
-                 return inventory.Items.Count == inventory.Capacity;
+                return inventory.InventoryItems.Count == inventory.Capacity;
             });
-            
+
         }
     }
 }

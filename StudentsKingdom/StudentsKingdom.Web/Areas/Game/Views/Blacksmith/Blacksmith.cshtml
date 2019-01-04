@@ -8,12 +8,12 @@
 
 <form class="mx-auto w-50 center" method="post" asp-area="Game" asp-action="Buy">
     <div class="items-wrap" multiple>
-        @foreach (var item in @Model.Inventory.Items)
+        @foreach (var i in @Model.Inventory.InventoryItems)
         {
-
+            
             <div class="item-container">
-                <partial for="@item" name="_ItemPartial" />
-                <input type="radio" name="itemId" value="@item.Id" />
+                <partial for="@i.Item" name="_ItemPartial" />
+                <input type="radio" name="itemId" value="@i.Item.Id" />
             </div>
 
 

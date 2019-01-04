@@ -15,14 +15,14 @@ namespace StudentsKingdom.Data.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly SignInManager<StudentsKingdomUser> signInManager;
+        private readonly SignInManager<Player> signInManager;
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly ICharacterService characterService;
         private readonly IStatsService statsService;
         private readonly IInventoryService inventoryService;
         private readonly IMapper mapper;
 
-        public AccountService(SignInManager<StudentsKingdomUser> signInManager, RoleManager<IdentityRole> roleManager, ICharacterService characterService, IStatsService statsService, IInventoryService inventoryService, IMapper mapper)
+        public AccountService(SignInManager<Player> signInManager, RoleManager<IdentityRole> roleManager, ICharacterService characterService, IStatsService statsService, IInventoryService inventoryService, IMapper mapper)
         {
             this.signInManager = signInManager;
             this.roleManager = roleManager;
@@ -32,25 +32,25 @@ namespace StudentsKingdom.Data.Services
             this.mapper = mapper;
         }
 
-        public async Task<StudentsKingdomUser> RegisterAsync(string username, string password, string email)
+        public async Task<Player> RegisterAsync(string username, string password, string email)
         {
-            var user = await this.CreateUserAsync(username, email);
+            var player = await this.CreatePlayerAsync(username, email);
 
-            var createUserResult = this.signInManager.UserManager.CreateAsync(user, password).Result;
+            var createUserResult = this.signInManager.UserManager.CreateAsync(player, password).Result;
 
-            var createRoleResult = this.signInManager.UserManager.AddToRoleAsync(user, UserRoles.Player.ToString()).Result;
+            var createRoleResult = this.signInManager.UserManager.AddToRoleAsync(player, UserRoles.Player.ToString()).Result;
 
             if (!createUserResult.Succeeded || !createRoleResult.Succeeded)
             {
                 throw new Exception("Create User/Role failed!");
             }
 
-            return user;
+            return player;
         }
 
-        public async Task LoginAsync(StudentsKingdomUser user, bool rememberMe)
+        public async Task LoginAsync(Player player, bool rememberMe)
         {
-            await this.signInManager.SignInAsync(user, rememberMe);
+            await this.signInManager.SignInAsync(player, rememberMe);
         }
 
         public async Task LogoutAsync()
@@ -58,22 +58,22 @@ namespace StudentsKingdom.Data.Services
             await this.signInManager.SignOutAsync();
         }
 
-        public async Task<StudentsKingdomUser> GetUserAsync(ClaimsPrincipal claimsPrincipal)
+        public async Task<Player> GetPlayerAsync(ClaimsPrincipal claimsPrincipal)
         {
             return await this.signInManager.UserManager.GetUserAsync(claimsPrincipal);
         }
 
-        public async Task<StudentsKingdomUser> GetUserAsync(string username, string password)
+        public async Task<Player> GetPlayerAsync(string username, string password)
         {
-            var user = await this.signInManager.UserManager.FindByNameAsync(username);
+            var player = await this.signInManager.UserManager.FindByNameAsync(username);
 
-            if (user != null)
+            if (player != null)
             {
-                var passwordCheck = await signInManager.CheckPasswordSignInAsync(user, password, false);
+                var passwordCheck = await signInManager.CheckPasswordSignInAsync(player, password, false);
 
                 if (passwordCheck.Succeeded)
                 {
-                    return user;
+                    return player;
                 }
             }
 
@@ -81,11 +81,11 @@ namespace StudentsKingdom.Data.Services
 
         }
 
-        public async Task<StudentsKingdomUser> CreateUserAsync(string username, string email)
+        public async Task<Player> CreatePlayerAsync(string username, string email)
         {
             var startingStatValue = CharacterConstants.StartingStatValue;
 
-            return new StudentsKingdomUser
+            return new Player
             {
                 UserName = username,
                 Email = email,
@@ -107,11 +107,11 @@ namespace StudentsKingdom.Data.Services
 
         public async Task<bool> AreUsernameOrEmailTakenAsync(string username, string email)
         {
-            var userByName = await this.signInManager.UserManager.FindByNameAsync(username);
-            var userByEmail = await this.signInManager.UserManager.FindByEmailAsync(email);
+            var playerByName = await this.signInManager.UserManager.FindByNameAsync(username);
+            var playerByEmail = await this.signInManager.UserManager.FindByEmailAsync(email);
 
 
-            return userByName != null || userByEmail != null ? true : false;
+            return playerByName != null || playerByEmail != null ? true : false;
         }
 
         public async Task SeedAdminAsync()
@@ -121,7 +121,7 @@ namespace StudentsKingdom.Data.Services
             if (!signInManager.UserManager.Users.Any(x => x.UserName == adminRoleName))
             {
                 //тря да го оправя :)
-                var user = new StudentsKingdomUser
+                var admin = new Player
                 {
                     UserName = adminRoleName,
                     Email = "admin@adm.in",
@@ -129,11 +129,11 @@ namespace StudentsKingdom.Data.Services
 
                 };
 
-                signInManager.UserManager.PasswordHasher.HashPassword(user, adminRoleName);
+                signInManager.UserManager.PasswordHasher.HashPassword(admin, adminRoleName);
 
-                await signInManager.UserManager.CreateAsync(user, adminRoleName);
+                await signInManager.UserManager.CreateAsync(admin, adminRoleName);
 
-                await signInManager.UserManager.AddToRoleAsync(user, adminRoleName);
+                await signInManager.UserManager.AddToRoleAsync(admin, adminRoleName);
             }
 
         }

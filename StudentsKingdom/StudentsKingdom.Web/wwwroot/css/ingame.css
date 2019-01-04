@@ -43,11 +43,19 @@
 }
 
 .inventory{
-    
-    height: 250px;
-    width: 100%;
-    border: 10px double white;
-    overflow-y: scroll;
+    height: 460px;
+    width: 75%;
+    border: 10px double #ffffff;
+    background-color: #000000;
+    opacity: 0.6;
+}
+
+.option-item{
+    color: white;
+    opacity: 1.0;
+    font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .inventory-header{
@@ -62,10 +70,29 @@
     opacity: 0.6;
 }
 
+.coins {
+    font-size: 28px;
+    color: #ffffff;
+    opacity: 0.6;
+}
+
+.capacity {
+    font-size: 28px;
+    color: #ffffff;
+    opacity: 0.6;
+}
+
 .item-img{
     margin-top:10px;
     max-height: 256px;
     max-width: 256px;
+    border: 5px solid white;
+    border-radius: 30px;
+}
+
+.item-info-img {
+    max-height: 200px;
+    max-width: 200px;
     border: 5px solid white;
     border-radius: 30px;
 }

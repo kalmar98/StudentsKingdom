@@ -10,8 +10,8 @@ using StudentsKingdom.Data;
 namespace StudentsKingdom.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20181230191534_NewVersionOfAllEntities")]
-    partial class NewVersionOfAllEntities
+    [Migration("20190103011751_testingManyToMany")]
+    partial class testingManyToMany
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -182,19 +182,30 @@ namespace StudentsKingdom.Data.Migrations
                     b.ToTable("Inventories");
                 });
 
+            modelBuilder.Entity("StudentsKingdom.Data.Models.InventoryItem", b =>
+                {
+                    b.Property<int>("InventoryId");
+
+                    b.Property<int>("ItemId");
+
+                    b.Property<bool>("IsEquipped");
+
+                    b.HasKey("InventoryId", "ItemId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("InventoryItems");
+                });
+
             modelBuilder.Entity("StudentsKingdom.Data.Models.Item", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CharacterId");
-
                     b.Property<int>("Coins");
 
                     b.Property<string>("Image");
-
-                    b.Property<int?>("InventoryId");
 
                     b.Property<string>("Name");
 
@@ -203,10 +214,6 @@ namespace StudentsKingdom.Data.Migrations
                     b.Property<int>("Type");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CharacterId");
-
-                    b.HasIndex("InventoryId");
 
                     b.HasIndex("StatsId");
 
@@ -232,51 +239,7 @@ namespace StudentsKingdom.Data.Migrations
                     b.ToTable("Locations");
                 });
 
-            modelBuilder.Entity("StudentsKingdom.Data.Models.Quest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Coins");
-
-                    b.Property<int>("EnemyId");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EnemyId");
-
-                    b.ToTable("Quests");
-                });
-
-            modelBuilder.Entity("StudentsKingdom.Data.Models.Stats", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Agility");
-
-                    b.Property<int>("Damage");
-
-                    b.Property<int>("Defence");
-
-                    b.Property<int>("Health");
-
-                    b.Property<int>("Intellect");
-
-                    b.Property<int>("Strength");
-
-                    b.Property<int>("Vitality");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Stats");
-                });
-
-            modelBuilder.Entity("StudentsKingdom.Data.Models.StudentsKingdomUser", b =>
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Player", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -331,6 +294,50 @@ namespace StudentsKingdom.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Quest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Coins");
+
+                    b.Property<int>("EnemyId");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EnemyId");
+
+                    b.ToTable("Quests");
+                });
+
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Stats", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Agility");
+
+                    b.Property<int>("Damage");
+
+                    b.Property<int>("Defence");
+
+                    b.Property<int>("Health");
+
+                    b.Property<int>("Intellect");
+
+                    b.Property<int>("Strength");
+
+                    b.Property<int>("Vitality");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stats");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -341,7 +348,7 @@ namespace StudentsKingdom.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("StudentsKingdom.Data.Models.StudentsKingdomUser")
+                    b.HasOne("StudentsKingdom.Data.Models.Player")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -349,7 +356,7 @@ namespace StudentsKingdom.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("StudentsKingdom.Data.Models.StudentsKingdomUser")
+                    b.HasOne("StudentsKingdom.Data.Models.Player")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -362,7 +369,7 @@ namespace StudentsKingdom.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("StudentsKingdom.Data.Models.StudentsKingdomUser")
+                    b.HasOne("StudentsKingdom.Data.Models.Player")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -370,7 +377,7 @@ namespace StudentsKingdom.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("StudentsKingdom.Data.Models.StudentsKingdomUser")
+                    b.HasOne("StudentsKingdom.Data.Models.Player")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -397,16 +404,21 @@ namespace StudentsKingdom.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("StudentsKingdom.Data.Models.InventoryItem", b =>
+                {
+                    b.HasOne("StudentsKingdom.Data.Models.Inventory", "Inventory")
+                        .WithMany("InventoryItems")
+                        .HasForeignKey("InventoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("StudentsKingdom.Data.Models.Item", "Item")
+                        .WithMany("InventoryItems")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("StudentsKingdom.Data.Models.Item", b =>
                 {
-                    b.HasOne("StudentsKingdom.Data.Models.Character")
-                        .WithMany("EquippedItems")
-                        .HasForeignKey("CharacterId");
-
-                    b.HasOne("StudentsKingdom.Data.Models.Inventory")
-                        .WithMany("Items")
-                        .HasForeignKey("InventoryId");
-
                     b.HasOne("StudentsKingdom.Data.Models.Stats", "Stats")
                         .WithMany()
                         .HasForeignKey("StatsId")
@@ -420,19 +432,19 @@ namespace StudentsKingdom.Data.Migrations
                         .HasForeignKey("InventoryId");
                 });
 
+            modelBuilder.Entity("StudentsKingdom.Data.Models.Player", b =>
+                {
+                    b.HasOne("StudentsKingdom.Data.Models.Character", "Character")
+                        .WithMany()
+                        .HasForeignKey("CharacterId");
+                });
+
             modelBuilder.Entity("StudentsKingdom.Data.Models.Quest", b =>
                 {
                     b.HasOne("StudentsKingdom.Data.Models.Enemy", "Enemy")
                         .WithMany()
                         .HasForeignKey("EnemyId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("StudentsKingdom.Data.Models.StudentsKingdomUser", b =>
-                {
-                    b.HasOne("StudentsKingdom.Data.Models.Character", "Character")
-                        .WithMany()
-                        .HasForeignKey("CharacterId");
                 });
 #pragma warning restore 612, 618
         }

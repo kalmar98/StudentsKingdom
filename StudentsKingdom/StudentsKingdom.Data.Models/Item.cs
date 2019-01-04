@@ -1,6 +1,7 @@
 ﻿using StudentsKingdom.Data.Common;
 using StudentsKingdom.Data.Common.Contracts;
 using StudentsKingdom.Data.Common.Enums.Items;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,9 +21,12 @@ namespace StudentsKingdom.Data.Models
         public int StatsId { get; set; }
         public virtual Stats Stats { get; set; }
 
+        [JsonIgnore]
+        public virtual ICollection<InventoryItem> InventoryItems { get; set; } = new List<InventoryItem>();
+
         public override string ToString()
         {
-            return this.Name;
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

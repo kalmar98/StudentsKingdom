@@ -1,4 +1,4 @@
-﻿@model StudentsKingdomUser
+﻿@model Player
 @{
     ViewData["Title"] = "Dorm";
 }
@@ -8,8 +8,8 @@
     <div class="col-md-4">
         <div class="username center font-moria-citadel">@User.Identity.Name</div>
         <div class="avatar-wrap mx-auto">
-            <div class="avatar"></div>
-            <div id="stats" data-id="@Model.Character.StatsId" class="avatar-description-layer">
+            <div id="stats" data-id="@Model.Character.StatsId" class="avatar"></div>
+            <div class="avatar-description-layer">
                 <div class="avatar-description">
                     <div id="statsInfo">
 
@@ -30,29 +30,28 @@
         </div>
 
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8 center">
         <h1 class="center font-moria-citadel inventory-header">Inventory</h1>
-        <div class="inventory">
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
-            <h1>hui</h1>
+        <select class="inventory" multiple>
+            @foreach (var i in Model.Character.Inventory.InventoryItems)
+            {
+                <option id="item" data-id="@i.Item" data-trigger="hover" data-content class="font-moria-citadel option-item center">@i.Item.Name</option>
+            }
+        </select>
+        <div class="row">
+            <div class="col-md-7 coins font-moria-citadel">
+                @Model.Character.Coins Coins
+            </div>
+            <div class="col-md-5 capacity font-moria-citadel">
+                @Model.Character.Inventory.InventoryItems.Count/@Model.Character.Inventory.Capacity Capacity
+            </div>
         </div>
     </div>
-    
+
 </div>
 
 @section Scripts
     {
-    <script src="~/js/showStatsDynamically.js"></script>
-
+    <script src="~/js/showStatsInfo.js"></script>
+    <script src="~/js/showItemInfo.js"></script>
 }

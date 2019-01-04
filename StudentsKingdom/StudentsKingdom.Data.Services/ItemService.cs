@@ -25,6 +25,8 @@ namespace StudentsKingdom.Data.Services
             this.mapper = mapper;
         }
 
+        
+
         public async Task<Item> CreateItemAsync(string name, int price, ItemType type, Stats stats, string image)
         {
             var item = new Item

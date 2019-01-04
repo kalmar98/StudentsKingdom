@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StudentsKingdom.Common.Constants.User;
 using StudentsKingdom.Data.Models;
 using StudentsKingdom.Data.Services.Contracts;
@@ -31,13 +32,13 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         [Route("/Game")]
         public async Task<IActionResult> Dorm()
         {
-            var user = await this.accountService.GetUserAsync(this.User);
+            var player = await this.accountService.GetPlayerAsync(this.User);
 
             
-            return this.View(user);
+            return this.View(player);
         }
 
-        //[HttpPost]
+        
         public async Task<IActionResult> StatsInfo(int id)
         {
             var stats = await this.statsService.GetStatsByIdAsync(id);
@@ -47,6 +48,17 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
 
             return this.PartialView("_StatsPartial", model);
             
+        }
+
+        public async Task<IActionResult> ItemInfo(string data)
+        {
+
+            var model = JsonConvert.DeserializeObject<ItemInfoViewModel>(data);
+
+            
+
+            return this.PartialView("_ItemInfoPartial", model);
+
         }
     }
 }

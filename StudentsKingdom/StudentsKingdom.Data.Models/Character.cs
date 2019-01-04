@@ -14,7 +14,5 @@ namespace StudentsKingdom.Data.Models
         public int InventoryId { get; set; }
         public virtual Inventory Inventory { get; set; }
 
-        public virtual IList<Item> EquippedItems { get; set; } = new List<Item>();
-
     }
 }

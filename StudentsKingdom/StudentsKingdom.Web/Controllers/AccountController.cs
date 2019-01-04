@@ -29,13 +29,13 @@ namespace StudentsKingdom.Web.Controllers
         { 
             if (this.ModelState.IsValid)
             {
-                var user = await this.accountService.GetUserAsync(model.Username, model.Password);
+                var player = await this.accountService.GetPlayerAsync(model.Username, model.Password);
 
-                if (user != null)
+                if (player != null)
                 {
-                    await this.accountService.LoginAsync(user, model.RememberMe);
+                    await this.accountService.LoginAsync(player, model.RememberMe);
 
-                    if(user.UserName == UserRoles.Admin.ToString())
+                    if(player.UserName == UserRoles.Admin.ToString())
                     {
                         return this.Redirect("/Administration");
                     }
@@ -64,9 +64,9 @@ namespace StudentsKingdom.Web.Controllers
 
                 if (!usernameOrEmailTaken)
                 {
-                    var user = await this.accountService.RegisterAsync(model.Username, model.Password, model.Email);
+                    var player = await this.accountService.RegisterAsync(model.Username, model.Password, model.Email);
 
-                    await this.accountService.LoginAsync(user, false);
+                    await this.accountService.LoginAsync(player, false);
 
                     return this.Redirect("/Game");
                 }

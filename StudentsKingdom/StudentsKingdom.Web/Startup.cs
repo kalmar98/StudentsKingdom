@@ -48,7 +48,7 @@ namespace StudentsKingdom.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<StudentsKingdomUser, IdentityRole>(options =>
+            services.AddIdentity<Player, IdentityRole>(options =>
             {
                 //for now
                 options.SignIn.RequireConfirmedEmail = false;
@@ -92,6 +92,9 @@ namespace StudentsKingdom.Web
             services.AddScoped<ICharacterService, CharacterService>();
             services.AddScoped<IInventoryService, InventoryService>();
             services.AddScoped<ILocationService, LocationService>();
+            services.AddScoped<IQuestService, QuestService>();
+            services.AddScoped<IEnemyService, EnemyService>();
+            services.AddScoped<IInventoryItemService, InventoryItemService>();
 
             
 

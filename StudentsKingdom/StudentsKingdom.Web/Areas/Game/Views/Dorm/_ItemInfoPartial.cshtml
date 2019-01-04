@@ -1,0 +1,11 @@
+﻿@model ItemInfoViewModel
+
+<img class="item-info-img" src="@Model.Image"/>
+<h3 class="center">@Model.Name</h3>
+@foreach (var stat in Model.Stats.GetType().GetProperties())
+{
+    @if ((int)stat.GetValue(Model.Stats) > 0)
+    {
+        <h3 class="center">@($"{stat.Name} {stat.GetValue(Model.Stats)}")</h3>
+    }
+}

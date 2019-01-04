@@ -11,12 +11,12 @@ namespace StudentsKingdom.Data.Services.Contracts
     {
         Task<bool> AreUsernameOrEmailTakenAsync(string username, string email);
         
-        Task<StudentsKingdomUser> CreateUserAsync(string username, string email);
-        Task<StudentsKingdomUser> RegisterAsync(string username, string password, string email);
-        Task LoginAsync(StudentsKingdomUser user, bool rememberMe);
+        Task<Player> CreatePlayerAsync(string username, string email);
+        Task<Player> RegisterAsync(string username, string password, string email);
+        Task LoginAsync(Player player, bool rememberMe);
         Task LogoutAsync();
-        Task<StudentsKingdomUser> GetUserAsync(ClaimsPrincipal claimsPrincipal);
-        Task<StudentsKingdomUser> GetUserAsync(string username, string password);
+        Task<Player> GetPlayerAsync(ClaimsPrincipal claimsPrincipal);
+        Task<Player> GetPlayerAsync(string username, string password);
         Task SeedAdminAsync();
         Task SeedRolesAsync();
     }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace StudentsKingdom.Data.Migrations
 {
-    public partial class NewVersionOfAllEntities : Migration
+    public partial class testingManyToMany : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -144,6 +144,29 @@ namespace StudentsKingdom.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Items",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true),
+                    Type = table.Column<int>(nullable: false),
+                    Coins = table.Column<int>(nullable: false),
+                    Image = table.Column<string>(nullable: true),
+                    StatsId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Items", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Items_Stats_StatsId",
+                        column: x => x.StatsId,
+                        principalTable: "Stats",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUsers",
                 columns: table => new
                 {
@@ -176,43 +199,6 @@ namespace StudentsKingdom.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Items",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true),
-                    Type = table.Column<int>(nullable: false),
-                    Coins = table.Column<int>(nullable: false),
-                    Image = table.Column<string>(nullable: true),
-                    StatsId = table.Column<int>(nullable: false),
-                    CharacterId = table.Column<int>(nullable: true),
-                    InventoryId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Items", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Items_Characters_CharacterId",
-                        column: x => x.CharacterId,
-                        principalTable: "Characters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Items_Inventories_InventoryId",
-                        column: x => x.InventoryId,
-                        principalTable: "Inventories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Items_Stats_StatsId",
-                        column: x => x.StatsId,
-                        principalTable: "Stats",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Quests",
                 columns: table => new
                 {
@@ -229,6 +215,31 @@ namespace StudentsKingdom.Data.Migrations
                         name: "FK_Quests_Enemies_EnemyId",
                         column: x => x.EnemyId,
                         principalTable: "Enemies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "InventoryItems",
+                columns: table => new
+                {
+                    InventoryId = table.Column<int>(nullable: false),
+                    ItemId = table.Column<int>(nullable: false),
+                    IsEquipped = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InventoryItems", x => new { x.InventoryId, x.ItemId });
+                    table.ForeignKey(
+                        name: "FK_InventoryItems_Inventories_InventoryId",
+                        column: x => x.InventoryId,
+                        principalTable: "Inventories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_InventoryItems_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -378,14 +389,9 @@ namespace StudentsKingdom.Data.Migrations
                 column: "StatsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Items_CharacterId",
-                table: "Items",
-                column: "CharacterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Items_InventoryId",
-                table: "Items",
-                column: "InventoryId");
+                name: "IX_InventoryItems_ItemId",
+                table: "InventoryItems",
+                column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_StatsId",
@@ -421,7 +427,7 @@ namespace StudentsKingdom.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Items");
+                name: "InventoryItems");
 
             migrationBuilder.DropTable(
                 name: "Locations");
@@ -434,6 +440,9 @@ namespace StudentsKingdom.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Items");
 
             migrationBuilder.DropTable(
                 name: "Enemies");

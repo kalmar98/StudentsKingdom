@@ -13,11 +13,13 @@ namespace StudentsKingdom.Data.Services
     public class CharacterService : ICharacterService
     {
         private readonly ApplicationDbContext context;
+        private readonly IInventoryItemService inventoryItemService;
         private readonly IMapper mapper;
 
-        public CharacterService(ApplicationDbContext context, IMapper mapper)
+        public CharacterService(ApplicationDbContext context,IInventoryItemService inventoryItemService, IMapper mapper)
         {
             this.context = context;
+            this.inventoryItemService = inventoryItemService;
             this.mapper = mapper;
         }
 
@@ -101,7 +103,8 @@ namespace StudentsKingdom.Data.Services
         public async Task BuyAsync(Character character, Item item)
         {
             character.Coins -= item.Coins;
-            character.Inventory.Items.Add(item);
+            var inventoryItem = await this.inventoryItemService.CreateInventoryItemAsync(character.Inventory, item);
+            //character.Inventory.InventoryItems.Add();
             await this.context.SaveChangesAsync();
         }
     }

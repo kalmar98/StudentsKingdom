@@ -54,24 +54,24 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
             }
 
             var item = await this.itemService.GetItemByIdAsync(itemId);
-            var user = await this.accountService.GetUserAsync(this.User);
+            var player = await this.accountService.GetPlayerAsync(this.User);
 
 
 
-            if (await this.inventoryService.IsInventoryFullAsync(user.Character.Inventory))
+            if (await this.inventoryService.IsInventoryFullAsync(player.Character.Inventory))
             {
                 this.TempData[ExceptionMessages.ViewDataErrorKey] = ExceptionMessages.FullInventory;
                 return this.Redirect("/Game/Blacksmith");
             }
 
-            if (!await this.characterService.CanAffordAsync(user.Character.Coins, item))
+            if (!await this.characterService.CanAffordAsync(player.Character.Coins, item))
             {
                 this.TempData[ExceptionMessages.ViewDataErrorKey] = ExceptionMessages.CannotAfford;
                 return this.Redirect("/Game/Blacksmith");
             }
 
-            await this.characterService.BuyAsync(user.Character, item);
-
+            await this.characterService.BuyAsync(player.Character, item);
+            //тук не знам дали се добавя навсякъде?????
             return this.Redirect("/Game");
         }
     }
