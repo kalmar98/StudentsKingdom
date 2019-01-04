@@ -7,6 +7,9 @@ namespace StudentsKingdom.Common.Constants.User
 {
     public static class UserConstants
     {
+        public const string GameArea = "Game";
+        public const string AdministrationArea = "Administration";
+
         public const string RolePlayer = "Player";
         public const string RoleAdmin = "Admin";
 

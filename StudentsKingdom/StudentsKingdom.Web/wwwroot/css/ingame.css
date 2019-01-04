@@ -43,6 +43,7 @@
 }
 
 .inventory{
+    overflow: auto;
     height: 460px;
     width: 75%;
     border: 10px double #ffffff;

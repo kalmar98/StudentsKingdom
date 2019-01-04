@@ -62,8 +62,37 @@ namespace StudentsKingdom.Data.Services
                 ItemConstants.DefaultSwordName,
                 ItemConstants.DefaultSwordPrice,
                 ItemType.Weapon,
-                this.statsService.CreateStatsAsync(damage: ItemConstants.DefaultSwordDamage).Result,
+                await this.statsService.CreateStatsAsync(damage: ItemConstants.DefaultSwordDamage),
                 ItemConstants.DefaultSwordImage
+                );
+
+                var armour = await this.CreateItemAsync(
+                ItemConstants.DefaultArmourName,
+                ItemConstants.DefaultArmourPrice,
+                ItemType.Armour,
+                await this.statsService.CreateStatsAsync(defence: ItemConstants.DefaultArmourDefence),
+                ItemConstants.DefaultArmourImage
+                );
+
+                var relic = await this.CreateItemAsync(
+                ItemConstants.DefaultRelicName,
+                ItemConstants.DefaultRelicPrice,
+                ItemType.Relic,
+                await this.statsService.CreateStatsAsync(
+                    vitality: ItemConstants.DefaultRelicBonus,
+                    strength: ItemConstants.DefaultRelicBonus,
+                    agility: ItemConstants.DefaultRelicBonus,
+                    intellect: ItemConstants.DefaultRelicBonus
+                    ),
+                ItemConstants.DefaultRelicImage
+                );
+
+                var food = await this.CreateItemAsync(
+                ItemConstants.DefaultFoodName,
+                ItemConstants.DefaultFoodPrice,
+                ItemType.Consumable,
+                await this.statsService.CreateStatsAsync(health: ItemConstants.DefaultHealthRecover),
+                ItemConstants.DefaultFoodImage
                 );
 
             }

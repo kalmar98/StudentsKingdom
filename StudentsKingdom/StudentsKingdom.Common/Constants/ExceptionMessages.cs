@@ -15,6 +15,7 @@ namespace StudentsKingdom.Common.Constants
         public const string FullInventory = "Your inventory is full!";
         public const string ChooseItem = "You should choose an item in order to buy!";
         public const string CannotAfford = "You do not have enough coins!";
+        public const string ItemAlreadyBought = "You already have this item in your inventory!";
         
     }
 }

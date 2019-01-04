@@ -82,16 +82,6 @@ namespace StudentsKingdom.Data.Services
             
         }
 
-        private bool EquippedItemsNullOrEmpty(IList<Item> EquippedItems)
-        {
-            if (EquippedItems == null || !EquippedItems.Any())
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         public async Task<bool> CanAffordAsync(int budget, Item item)
         {
             return await Task.Run(() =>
@@ -104,8 +94,27 @@ namespace StudentsKingdom.Data.Services
         {
             character.Coins -= item.Coins;
             var inventoryItem = await this.inventoryItemService.CreateInventoryItemAsync(character.Inventory, item);
-            //character.Inventory.InventoryItems.Add();
+            
             await this.context.SaveChangesAsync();
+        }
+
+        public async Task<bool> ItemAlreadyBought(Character character, Item item)
+        {
+            return await Task.Run(() =>
+            {
+                return character.Inventory.InventoryItems.Any(x => x.ItemId == item.Id);
+            });
+        }
+
+
+        private bool EquippedItemsNullOrEmpty(IList<Item> EquippedItems)
+        {
+            if (EquippedItems == null || !EquippedItems.Any())
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

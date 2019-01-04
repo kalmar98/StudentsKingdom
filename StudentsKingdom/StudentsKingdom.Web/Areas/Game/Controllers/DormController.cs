@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using StudentsKingdom.Common.Constants.Location;
 using StudentsKingdom.Common.Constants.User;
 using StudentsKingdom.Data.Models;
 using StudentsKingdom.Data.Services.Contracts;
@@ -13,7 +14,7 @@ using StudentsKingdom.Web.Areas.Game.Models.Dorm;
 
 namespace StudentsKingdom.Web.Areas.Game.Controllers
 {
-    [Area("Game")]
+    [Area(UserConstants.GameArea)]
     [Authorize(Roles = UserConstants.RolePlayer)]
     public class DormController : Controller
     {
@@ -29,7 +30,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         }
 
 
-        [Route("/Game")]
+        [Route(LocationConstants.GamePath)]
         public async Task<IActionResult> Dorm()
         {
             var player = await this.accountService.GetPlayerAsync(this.User);
@@ -37,6 +38,8 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
             
             return this.View(player);
         }
+
+
 
         
         public async Task<IActionResult> StatsInfo(int id)
@@ -52,12 +55,12 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
 
         public async Task<IActionResult> ItemInfo(string data)
         {
+            return await Task.Run(() =>
+            {
+                var model = JsonConvert.DeserializeObject<ItemInfoViewModel>(data);
 
-            var model = JsonConvert.DeserializeObject<ItemInfoViewModel>(data);
-
-            
-
-            return this.PartialView("_ItemInfoPartial", model);
+                return this.PartialView("_ItemInfoPartial", model);
+            });
 
         }
     }

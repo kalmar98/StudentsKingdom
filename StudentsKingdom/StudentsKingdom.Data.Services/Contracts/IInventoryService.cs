@@ -9,7 +9,8 @@ namespace StudentsKingdom.Data.Services.Contracts
 {
     public interface IInventoryService
     {
-        Task<Inventory> CreateInventoryAsync(LocationType? locationType = null);
+        Task<Inventory> CreateInventoryAsync();
+        Task<Inventory> CreateInventoryAsync(LocationType locationType);
         Task<bool> IsInventoryFullAsync(Inventory inventory);
     }
 }

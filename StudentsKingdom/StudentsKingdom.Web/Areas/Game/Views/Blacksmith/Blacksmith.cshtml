@@ -6,7 +6,7 @@
 <h2 class="center font-moria-citadel location-header">@Model.Name</h2>
 
 
-<form class="mx-auto w-50 center" method="post" asp-area="Game" asp-action="Buy">
+<form class="mx-auto w-50 center" method="post" asp-area="Game" asp-controller="Blacksmith" asp-action="Buy">
     <div class="items-wrap" multiple>
         @foreach (var i in @Model.Inventory.InventoryItems)
         {
