@@ -1,8 +1,39 @@
-﻿
+﻿@model Location
 @{
     ViewData["Title"] = "Bread & Meat";
 }
 
-<h2>Welcome to Bread & Meat</h2>
-<h2>@this.User.Identity.Name</h2>
+<h2 class="center font-moria-citadel location-header">Bread & Meat</h2>
+
+
+<form class="mx-auto w-50 center trade-items-form-container" method="post" asp-area="Game" asp-controller="Canteen" asp-action="Buy">
+    <div class="trade-items-wrap">
+        @foreach (var i in @Model.Inventory.InventoryItems)
+        {
+
+            <div class="trade-item">
+                <partial for="@i.Item" name="_ItemTradePartial" />
+                <input type="radio" name="itemId" value="@i.Item.Id" />
+            </div>
+
+
+        }
+    </div>
+
+    <button type="submit" class="buy-btn">BUY</button>
+
+</form>
+
+@section Scripts
+    {
+    @if (this.TempData.ContainsKey(ExceptionMessages.ViewDataErrorKey))
+    {
+        <script src="~/js/alertExceptions.js" id="error" data-bind="@this.TempData[ExceptionMessages.ViewDataErrorKey].ToString()"></script>
+        this.TempData.Clear();
+    }
+
+}
+
+
+
 

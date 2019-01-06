@@ -23,7 +23,7 @@ namespace StudentsKingdom.Common.Constants.Item
         public const int DefaultRelicBonus = 10;
         public const string DefaultRelicImage = "/images/relic.png";
 
-        public const string DefaultFoodName = "Bread & Meat";
+        public const string DefaultFoodName = "Bread";
         public const int DefaultFoodPrice = 5;
         public const int DefaultHealthRecover = 20;
         public const string DefaultFoodImage = "/images/food.png";

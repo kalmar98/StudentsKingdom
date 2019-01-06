@@ -1,7 +1,23 @@
-﻿
+﻿@model Location
 @{
     ViewData["Title"] = "University";
 }
 
-<h2>View</h2>
+<h2 class="center font-moria-citadel location-header">@Model.Name</h2>
+
+<div class="row center">
+    <div class="col-md-6 font-moria-citadel">
+        <partial name="_TrainPartial" />
+    </div>
+    <div class="col-md-6 font-moria-citadel">
+        <partial name="_QuestPartial" />
+    </div>
+</div>
+
+
+
+
+
+
+
 

@@ -17,43 +17,33 @@
                 </div>
             </div>
         </div>
-        <div class="font-moria-citadel">
-            <div>
-                <p>Weapon</p>
-            </div>
-            <div>
-                <p>Armour</p>
-            </div>
-            <div>
-                <p>Relic</p>
-            </div>
-        </div>
+
+        <partial name="_EquippedItemsPartial" for="@Model.Character.Inventory.InventoryItems" />
 
     </div>
     <div class="col-md-8 center">
         <h1 class="center font-moria-citadel inventory-header">Inventory</h1>
         <form method="post">
-            <select class="inventory" multiple>
-                @foreach (var i in Model.Character.Inventory.InventoryItems)
+            <select class="inventory" multiple id="item">
+                @foreach (var i in Model.Character.Inventory.InventoryItems.Where(x => !x.IsEquipped))
                 {
-                    <<option id="item" data-id="@i.Item" data-trigger="hover" data-content class="font-moria-citadel option-item center">@i.Item.Name</option>
+                    <option data-toggle="popover" id="@i.Item.Id" data-id="@i.Item" data-trigger="hover" data-content class="font-moria-citadel option-item center">@i.Item.Name</option>
                 }
             </select>
             <div>
-                <input type="submit" name="Equip" value="Equip" formaction="/Game/Dorm/Equip">
-                <input type="submit" name="Remove" value="Remove" formaction="/Gane/Dorm/Remove">
+                <input type="submit" id="equip" value="Equip" class="inventory-btn font-moria-citadel">
+                <input type="submit" id="remove" value="Remove" class="inventory-btn font-moria-citadel">
             </div>
         </form>
-        
-        
-        <div class="row">
-            <div class="col-md-7 coins font-moria-citadel">
-                @Model.Character.Coins Coins
-            </div>
-            <div class="col-md-5 capacity font-moria-citadel">
-                @Model.Character.Inventory.InventoryItems.Count/@Model.Character.Inventory.Capacity Capacity
-            </div>
+
+        <div class="capacity font-moria-citadel" id="capacity">
+            @Model.Character.Inventory.InventoryItems.Where(x => !x.IsEquipped).Count()/@Model.Character.Inventory.Capacity Capacity
         </div>
+        <div class="coins font-moria-citadel">
+            @Model.Character.Coins Coins
+        </div>
+
+
     </div>
 
 </div>
@@ -62,4 +52,8 @@
     {
     <script src="~/js/showStatsInfo.js"></script>
     <script src="~/js/showItemInfo.js"></script>
+    <script src="~/js/equip.js"></script>
+    <script src="~/js/unequip.js"></script>
+    <script src="~/js/removeItem.js"></script>
+
 }

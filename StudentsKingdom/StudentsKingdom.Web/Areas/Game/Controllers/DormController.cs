@@ -20,12 +20,16 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
     {
         private readonly IStatsService statsService;
         private readonly IAccountService accountService;
+        private readonly IItemService itemService;
+        private readonly ICharacterService characterService;
         private readonly IMapper mapper;
 
-        public DormController(IStatsService statsService, IAccountService accountService, IMapper mapper)
+        public DormController(IStatsService statsService, IAccountService accountService, IItemService itemService, ICharacterService characterService, IMapper mapper)
         {
             this.statsService = statsService;
             this.accountService = accountService;
+            this.itemService = itemService;
+            this.characterService = characterService;
             this.mapper = mapper;
         }
 
@@ -35,22 +39,27 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         {
             var player = await this.accountService.GetPlayerAsync(this.User);
 
-            
+
             return this.View(player);
         }
 
 
 
-        
+
         public async Task<IActionResult> StatsInfo(int id)
         {
+
             var stats = await this.statsService.GetStatsByIdAsync(id);
 
-            
+            if (stats == null)
+            {
+                return this.NotFound();
+            }
+
             var model = this.mapper.Map<StatsViewModel>(stats);
 
             return this.PartialView("_StatsPartial", model);
-            
+
         }
 
         public async Task<IActionResult> ItemInfo(string data)
@@ -62,6 +71,51 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
                 return this.PartialView("_ItemInfoPartial", model);
             });
 
+        }
+
+        public async Task<IActionResult> Equip(int id)
+        {
+            
+            var item = await this.itemService.GetItemByIdAsync(id);
+            var player = await this.accountService.GetPlayerAsync(this.User);
+
+            var result = await this.characterService.EquipAsync(player.Character, item);
+
+            if (result != null)
+            {
+                return new JsonResult(item.Type.ToString());
+            }
+
+            return new EmptyResult();
+        }
+
+        public async Task<IActionResult> Unequip(string data)
+        {
+            var player = await this.accountService.GetPlayerAsync(this.User);
+
+            var result = await this.characterService.UnequipAsync(player.Character, data);
+
+            if (result != null)
+            {
+                return new ObjectResult(result.ToString());
+            }
+
+            return new EmptyResult();
+        }
+
+        public async Task<IActionResult> Remove(int id)
+        {
+            var item = await this.itemService.GetItemByIdAsync(id);
+            var player = await this.accountService.GetPlayerAsync(this.User);
+
+            var result = await this.characterService.RemoveAsync(player.Character, item);
+
+            if (result)
+            {
+                return new JsonResult(item.Type.ToString());
+            }
+
+            return new EmptyResult();
         }
     }
 }

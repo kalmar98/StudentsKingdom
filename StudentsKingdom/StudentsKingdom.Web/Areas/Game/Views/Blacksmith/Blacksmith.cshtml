@@ -6,13 +6,13 @@
 <h2 class="center font-moria-citadel location-header">@Model.Name</h2>
 
 
-<form class="mx-auto w-50 center" method="post" asp-area="Game" asp-controller="Blacksmith" asp-action="Buy">
-    <div class="items-wrap" multiple>
+<form class="mx-auto w-50 center trade-items-form-container"  method="post" asp-area="Game" asp-controller="Blacksmith" asp-action="Buy">
+    <div class="trade-items-wrap">
         @foreach (var i in @Model.Inventory.InventoryItems)
         {
             
-            <div class="item-container">
-                <partial for="@i.Item" name="_ItemPartial" />
+            <div class="trade-item">
+                <partial for="@i.Item" name="_ItemTradePartial" />
                 <input type="radio" name="itemId" value="@i.Item.Id" />
             </div>
 
@@ -20,7 +20,7 @@
         }
     </div>
 
-    <button type="submit">Buy</button>
+    <button type="submit" class="buy-btn">BUY</button>
 
 </form>
 

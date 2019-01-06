@@ -6,6 +6,7 @@ using StudentsKingdom.Data.Models;
 using StudentsKingdom.Data.Services.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -86,7 +87,7 @@ namespace StudentsKingdom.Data.Services
         {
             return await Task.Run(() =>
             {
-                return inventory.InventoryItems.Count == inventory.Capacity;
+                return inventory.InventoryItems.Where(x=>!x.IsEquipped).Count() == inventory.Capacity;
             });
 
         }

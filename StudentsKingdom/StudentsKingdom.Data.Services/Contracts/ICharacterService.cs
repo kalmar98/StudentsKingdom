@@ -10,11 +10,14 @@ namespace StudentsKingdom.Data.Services.Contracts
     {
         
         Task<Character> CreateCharacterAsync(int coins, Stats stats,Inventory inventory);
-        Task<int> GetDamageValueAsync(int strength, IList<Item> EquippedItems = null);
-        Task<int> GetHealthValueAsync(int vitality, IList<Item> EquippedItems = null);
-        Task<int> GetDefenceValueAsync(IList<Item> EquippedItems = null);
+        Task<int> GetDamageValueAsync(int strength);
+        Task<int> GetHealthValueAsync(int vitality);
+        Task<int> GetDefenceValueAsync();
         Task<bool> CanAffordAsync(int budget, Item item);
         Task<bool> ItemAlreadyBought(Character character, Item item);
         Task BuyAsync(Character character, Item item);
+        Task<Item> EquipAsync(Character character, Item item);
+        Task<Item> UnequipAsync(Character character, string typeName);
+        Task<bool> RemoveAsync(Character character, Item item);
     }
 }

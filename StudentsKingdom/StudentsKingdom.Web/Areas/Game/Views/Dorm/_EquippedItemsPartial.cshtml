@@ -1,0 +1,45 @@
+﻿@model IEnumerable<InventoryItem>
+<h3 class="equipped-items-header center font-moria-citadel">Equipped Items</h3>
+<div class="font-moria-citadel center">
+
+    @if (Model.Any(x => x.IsEquipped && x.Item.Type == ItemType.Weapon))
+    {
+        <div id="Weapon" class="equipped-item">
+            <h4 data-trigger="click">Weapon</h4>
+        </div>
+    }
+    else
+    {
+        <div id="Weapon" class="not-equipped-item">
+            <h4 data-trigger="click">Weapon</h4>
+        </div>
+    }
+
+    @if (Model.Any(x => x.IsEquipped && x.Item.Type == ItemType.Armour))
+    {
+        <div id="Armour" class="equipped-item">
+            <h4 data-trigger="click">Armour</h4>
+        </div>
+    }
+    else
+    {
+        <div id="Armour" class="not-equipped-item">
+            <h4 data-trigger="click">Armour</h4>
+        </div>
+    }
+
+    @if (Model.Any(x => x.IsEquipped && x.Item.Type == ItemType.Relic))
+    {
+        <div id="Relic" class="equipped-item">
+            <h4 data-trigger="click">Relic</h4>
+        </div>
+    }
+    else
+    {
+        <div id="Relic" class="not-equipped-item">
+            <h4 data-trigger="click">Relic</h4>
+        </div>
+    }
+
+
+</div>
