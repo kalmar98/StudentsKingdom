@@ -44,19 +44,19 @@ namespace StudentsKingdom.Data.Services
             return item;
         }
 
-        public async Task<Item> GetItemByIdAsync(int id)
+        public async Task<Item> GetItemAsync(int id)
         {
             return await this.context.Items.SingleAsync(x => x.Id == id);
         }
 
-        public async Task<Item> GetItemByNameAsync(string name)
+        public async Task<Item> GetItemAsync(string name)
         {
             return await this.context.Items.SingleAsync(x => x.Name == name);
         }
 
         public async Task SeedItemsAsync()
         {
-            if(this.context.Items.Count() != ItemConstants.DefaultItemsCount)
+            if(!this.context.Items.Any())
             {
                 var sword = await this.CreateItemAsync(
                 ItemConstants.DefaultSwordName,

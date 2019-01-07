@@ -11,8 +11,8 @@ namespace StudentsKingdom.Data.Services.Contracts
     {
         Task SeedItemsAsync();
         Task<Item> CreateItemAsync(string name, int price, ItemType type, Stats stats, string image);
-        Task<Item> GetItemByNameAsync(string name);
-        Task<Item> GetItemByIdAsync(int id);
+        Task<Item> GetItemAsync(string name);
+        Task<Item> GetItemAsync(int id);
         
     }
 }

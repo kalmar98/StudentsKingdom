@@ -9,6 +9,6 @@ namespace StudentsKingdom.Data.Services.Contracts
     public interface IStatsService
     {
         Task<Stats> CreateStatsAsync(int health = 0, int damage = 0, int defence = 0, int vitality = 0, int strength = 0, int agility = 0, int intellect = 0);
-        Task<Stats> GetStatsByIdAsync(int statsId);
+        Task<Stats> GetStatsAsync(int statsId);
     }
 }

@@ -49,7 +49,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         public async Task<IActionResult> StatsInfo(int id)
         {
 
-            var stats = await this.statsService.GetStatsByIdAsync(id);
+            var stats = await this.statsService.GetStatsAsync(id);
 
             if (stats == null)
             {
@@ -76,7 +76,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         public async Task<IActionResult> Equip(int id)
         {
             
-            var item = await this.itemService.GetItemByIdAsync(id);
+            var item = await this.itemService.GetItemAsync(id);
             var player = await this.accountService.GetPlayerAsync(this.User);
 
             var result = await this.characterService.EquipAsync(player.Character, item);
@@ -105,7 +105,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
 
         public async Task<IActionResult> Remove(int id)
         {
-            var item = await this.itemService.GetItemByIdAsync(id);
+            var item = await this.itemService.GetItemAsync(id);
             var player = await this.accountService.GetPlayerAsync(this.User);
 
             var result = await this.characterService.RemoveAsync(player.Character, item);

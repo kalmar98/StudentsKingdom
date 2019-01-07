@@ -15,12 +15,14 @@ namespace StudentsKingdom.Data.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IInventoryItemService inventoryItemService;
+        private readonly IQuestService questService;
         private readonly IMapper mapper;
 
-        public CharacterService(ApplicationDbContext context, IInventoryItemService inventoryItemService, IMapper mapper)
+        public CharacterService(ApplicationDbContext context, IInventoryItemService inventoryItemService, IQuestService questService, IMapper mapper)
         {
             this.context = context;
             this.inventoryItemService = inventoryItemService;
+            this.questService = questService;
             this.mapper = mapper;
         }
 
@@ -112,9 +114,9 @@ namespace StudentsKingdom.Data.Services
 
 
                         var resultValue = (int)character.Stats.GetType().GetProperty(stat.Name).GetValue(character.Stats) + statValue;
-                        if(stat.Name == nameof(item.Stats.Health))
+                        if (stat.Name == nameof(item.Stats.Health))
                         {
-                            if( resultValue > await this.GetHealthValueAsync(character.Stats.Vitality))
+                            if (resultValue > await this.GetHealthValueAsync(character.Stats.Vitality))
                             {
                                 continue;
                             }
@@ -183,7 +185,7 @@ namespace StudentsKingdom.Data.Services
         {
             var inventoryItem = character.Inventory.InventoryItems.FirstOrDefault(x => x.ItemId == item.Id);
 
-            if (inventoryItem != null) 
+            if (inventoryItem != null)
             {
                 this.context.InventoryItems.Remove(inventoryItem);
                 await this.context.SaveChangesAsync();
@@ -194,12 +196,123 @@ namespace StudentsKingdom.Data.Services
             return false;
         }
 
-        public async Task<bool> ItemAlreadyBought(Character character, Item item)
+        public async Task<bool> TrainAsync(Character character, string statName)
+        {
+
+            if (typeof(Stats).GetProperties().Any(x => x.Name == statName))
+            {
+                var property = typeof(Stats).GetProperty(statName);
+                var value = (int)property.GetValue(character.Stats) + CharacterConstants.TrainStatValue;
+                property.SetValue(character.Stats, value);
+                if (statName == nameof(Stats.Vitality))
+                {
+                    character.Stats.Health = await this.GetHealthValueAsync(value);
+                }
+                else if (statName == nameof(Stats.Strength))
+                {
+                    character.Stats.Damage = await this.GetDamageValueAsync(value);
+                }
+
+                await this.context.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public async Task<Quest> QuestAsync(Character character, string questName)
+        {
+            var quest = await this.questService.GetQuestAsync(questName);
+            var result = await this.FightAsync(character.Stats, quest.Enemy.Stats);
+
+            if (result == CharacterConstants.LeftSideWon)
+            {
+                character.Coins += quest.Coins;
+                await this.context.SaveChangesAsync();
+                return quest;
+            }
+
+            return null;
+        }
+
+        public async Task<string> FightAsync(Stats leftSideStats, Stats rightSideStats)
+        {
+            var result = string.Empty;
+
+            var leftSideHealth = leftSideStats.Health;
+            var rightSideHealth = rightSideStats.Health;
+
+            if (leftSideHealth > 0 && rightSideHealth > 0)
+            {
+                var leftSideDamageReduction = await this.GetDamageReduction(rightSideStats.Defence);
+                var leftSideDamage = leftSideStats.Damage - leftSideDamageReduction;
+
+
+                var rightSideDamageReduction = await this.GetDamageReduction(leftSideStats.Defence);
+                var rightSideDamage = rightSideStats.Damage - rightSideDamageReduction;
+
+                while (true)
+                {
+
+                    rightSideHealth = await this.AttackAsync(leftSideDamage, rightSideHealth);
+                    if (rightSideHealth <= 0)
+                    {
+                        leftSideStats.Health = leftSideHealth;
+                        result = CharacterConstants.LeftSideWon;
+                        break;
+                    }
+
+
+                    leftSideHealth = await this.AttackAsync(rightSideDamage, leftSideHealth);
+                    if (leftSideHealth <= 0)
+                    {
+                        leftSideStats.Health = 0;
+                        result = CharacterConstants.RightSideWon;
+                        break;
+                    }
+
+                }
+
+                await this.context.SaveChangesAsync();
+            }
+
+
+
+
+
+            return result;
+
+        }
+
+        public async Task<int> AttackAsync(int attackerDamage, int defenderHealth)
+        {
+            return await Task.Run(() =>
+            {
+                defenderHealth -= attackerDamage;
+
+                return defenderHealth;
+            });
+
+        }
+
+        public async Task<int> GetDamageReduction(int defenderDefence)
+        {
+            return await Task.Run(() =>
+            {
+                return (int)Math.Ceiling((decimal)defenderDefence / CharacterConstants.DamageReducer);
+            });
+
+        }
+
+        public async Task<bool> ItemAlreadyBoughtAsync(Character character, Item item)
         {
             return await Task.Run(() =>
             {
                 return character.Inventory.InventoryItems.Any(x => x.ItemId == item.Id);
             });
         }
+
+
     }
 }

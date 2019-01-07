@@ -9,6 +9,7 @@ using StudentsKingdom.Common.Constants.Location;
 using StudentsKingdom.Common.Constants.User;
 using StudentsKingdom.Data.Common.Enums.Locations;
 using StudentsKingdom.Data.Services.Contracts;
+using StudentsKingdom.Web.Areas.Game.Models.University;
 
 namespace StudentsKingdom.Web.Areas.Game.Controllers
 {
@@ -45,21 +46,37 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
 
 
         [Route(LocationConstants.UniversityTrainPath)]
-        public async Task<IActionResult> Train()
+        public async Task<IActionResult> Train(string stat)
         {
-            
-            
+            var player = await this.accountService.GetPlayerAsync(this.User);
 
-            return this.View();
+            var result = await this.characterService.TrainAsync(player.Character, stat);
+
+            if (result)
+            {
+                return this.Redirect(LocationConstants.GamePath);
+            }
+
+            return this.Redirect(LocationConstants.UniversityPath);
+            
         }
 
         [Route(LocationConstants.UniversityQuestPath)]
-        public async Task<IActionResult> Quest()
+        public async Task<IActionResult> Quest(string data)
         {
+            var player = await this.accountService.GetPlayerAsync(this.User);
 
+            var result = await this.characterService.QuestAsync(player.Character, data);
 
+            if(result != null)
+            {
+                var model = this.mapper.Map<QuestInfoViewModel>(result);
+                return this.PartialView("_QuestResultPartial",model);
+            }
 
-            return this.View();
+            return this.PartialView("_QuestResultPartial", null);
         }
+
+
     }
 }

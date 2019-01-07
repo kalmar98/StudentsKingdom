@@ -9,7 +9,8 @@
         $.get(url, function (data) {
             $(modalName).html(data);
             $(modalName).modal('show');
-            
+           
         });
+        
     });
 });

@@ -57,12 +57,12 @@ namespace StudentsKingdom.Data.Services
                 inventory.InventoryItems.Add(
                     await this.inventoryItemService.CreateInventoryItemAsync(
                         inventory,
-                        await this.itemService.GetItemByNameAsync(ItemConstants.DefaultSwordName)
+                        await this.itemService.GetItemAsync(ItemConstants.DefaultSwordName)
                     ));
                 inventory.InventoryItems.Add(
                     await this.inventoryItemService.CreateInventoryItemAsync(
                         inventory,
-                        await this.itemService.GetItemByNameAsync(ItemConstants.DefaultArmourName)
+                        await this.itemService.GetItemAsync(ItemConstants.DefaultArmourName)
                     ));
 
 
@@ -72,7 +72,7 @@ namespace StudentsKingdom.Data.Services
                 inventory.InventoryItems.Add(
                      await this.inventoryItemService.CreateInventoryItemAsync(
                          inventory,
-                         await this.itemService.GetItemByNameAsync(ItemConstants.DefaultFoodName)
+                         await this.itemService.GetItemAsync(ItemConstants.DefaultFoodName)
                      ));
             }
 

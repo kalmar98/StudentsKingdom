@@ -1,0 +1,25 @@
+﻿@model QuestInfoViewModel
+<div class="modal-dialog mx-auto quest-result">
+
+    @if (Model != null)
+    {
+        <div class="modal-header">
+            <h1 class="mx-auto">@CharacterConstants.LeftSideWon</h1>
+        </div>
+
+        <h4>@Model.EnemyName is dead!</h4>
+        <h2>Reward: @Model.Coins Coins</h2>
+    }
+    else
+    {
+        <div class="modal-header">
+            <h1 class="mx-auto">@CharacterConstants.RightSideWon</h1>
+        </div>
+        
+    }
+
+
+
+</div>
+
+

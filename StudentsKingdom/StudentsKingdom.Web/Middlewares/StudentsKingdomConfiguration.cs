@@ -18,12 +18,14 @@ namespace StudentsKingdom.Web.Middlewares
             this.next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context, IAccountService accountService, IItemService itemService, ILocationService locationService)
+        public async Task InvokeAsync(HttpContext context, IAccountService accountService, IItemService itemService, ILocationService locationService, IEnemyService enemyService, IQuestService questService)
         {
             await accountService.SeedRolesAsync();
             await accountService.SeedAdminAsync();
             await itemService.SeedItemsAsync();
             await locationService.SeedLocationsAsync();
+            await enemyService.SeedEnemiesAsync();
+            await questService.SeedQuestsAsync();
             await this.next(context);
         }
 

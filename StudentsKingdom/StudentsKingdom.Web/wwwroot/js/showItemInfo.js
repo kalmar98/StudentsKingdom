@@ -8,9 +8,8 @@ $('.inventory').on('customEvent', function () {
 
     $('[data-toggle="popover"]').popover({
         html: true,
-        placement: "auto",
+        placement: "top",
         animation: true
-
     });
 
 

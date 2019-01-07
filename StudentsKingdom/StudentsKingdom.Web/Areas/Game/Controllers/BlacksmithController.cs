@@ -54,7 +54,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
                 return this.Redirect(LocationConstants.BlacksmithPath);
             }
 
-            var item = await this.itemService.GetItemByIdAsync(itemId);
+            var item = await this.itemService.GetItemAsync(itemId);
             var player = await this.accountService.GetPlayerAsync(this.User);
 
 
@@ -71,7 +71,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
                 return this.Redirect(LocationConstants.BlacksmithPath);
             }
 
-            if (await this.characterService.ItemAlreadyBought(player.Character, item))
+            if (await this.characterService.ItemAlreadyBoughtAsync(player.Character, item))
             {
                 this.TempData[ExceptionMessages.ViewDataErrorKey] = ExceptionMessages.ItemAlreadyBought;
                 return this.Redirect(LocationConstants.BlacksmithPath);

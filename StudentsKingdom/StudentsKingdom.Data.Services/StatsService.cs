@@ -40,9 +40,9 @@ namespace StudentsKingdom.Data.Services
             return stats;
         }
 
-        public async Task<Stats> GetStatsByIdAsync(int statsId)
+        public async Task<Stats> GetStatsAsync(int id)
         {
-            return await this.context.Stats.SingleAsync(x => x.Id == statsId);
+            return await this.context.Stats.SingleAsync(x => x.Id == id);
         }
     }
 }

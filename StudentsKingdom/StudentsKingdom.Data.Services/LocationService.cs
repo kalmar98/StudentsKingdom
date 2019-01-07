@@ -48,7 +48,7 @@ namespace StudentsKingdom.Data.Services
         {
             var locationNames = Enum.GetNames(typeof(LocationType));
 
-            if (this.context.Locations.Count() != locationNames.Length)
+            if (!this.context.Locations.Any())
             {
                 foreach (var locationName in locationNames)
                 {
