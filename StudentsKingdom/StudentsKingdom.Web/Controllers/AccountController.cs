@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentsKingdom.Common.Constants;
+using StudentsKingdom.Common.Constants.Location;
 using StudentsKingdom.Common.Enums;
 using StudentsKingdom.Data.Services.Contracts;
 using StudentsKingdom.Web.Models;
@@ -21,7 +22,7 @@ namespace StudentsKingdom.Web.Controllers
 
         public IActionResult LoginWindow()
         {
-            return this.PartialView("_LoginWindowPartial");
+            return this.PartialView(LocationConstants.LoginWindowPartialPath);
         }
 
         [HttpPost]
@@ -37,16 +38,16 @@ namespace StudentsKingdom.Web.Controllers
 
                     if(player.UserName == UserRoles.Admin.ToString())
                     {
-                        return this.Redirect("/Administration");
+                        return this.Redirect(LocationConstants.AdministrationPath);
                     }
 
-                    return this.Redirect("/Game");
+                    return this.Redirect(LocationConstants.GamePath);
                 }
 
             }
 
             this.TempData[ExceptionMessages.ViewDataErrorKey] = ExceptionMessages.LoginError;
-            return this.RedirectToAction("Index", "Home");
+            return this.Redirect(LocationConstants.HomePath);
 
         }
 
@@ -68,7 +69,7 @@ namespace StudentsKingdom.Web.Controllers
 
                     await this.accountService.LoginAsync(player, false);
 
-                    return this.Redirect("/Game");
+                    return this.Redirect(LocationConstants.GamePath);
                 }
 
             }
@@ -80,7 +81,26 @@ namespace StudentsKingdom.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await this.accountService.LogoutAsync();
-            return this.RedirectToAction("Index", "Home");
+            return this.Redirect(LocationConstants.HomePath);
+        }
+
+        public IActionResult LoginWithFacebook()
+        {
+            string provider = "Facebook";
+            string redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account");
+
+            var properties = this.accountService.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
+            return new ChallengeResult(provider, properties);
+
+        }
+
+        public async Task<IActionResult> ExternalLoginCallback()
+        {
+            await this.accountService.ExternalLoginCallback();
+
+            //return this.Redirect("~/");
+            return this.Redirect(LocationConstants.HomePath);
         }
     }
 }

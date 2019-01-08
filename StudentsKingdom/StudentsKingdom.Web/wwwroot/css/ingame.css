@@ -143,11 +143,13 @@
 .not-equipped-item{
     color: #ff6a00;
     opacity: 0.2;
+    cursor: default;
 }
 
 .equipped-item {
     color: #ff6a00;
     opacity: 0.6;
+    cursor: pointer;
 }
 
 .avatar {
@@ -271,6 +273,40 @@
     border: 2px double #ffffff;
     border-radius: 5px;
 }
+
+.pvp-result {
+    color: #ffffff;
+    border: 2px double #ffffff;
+    border-radius: 5px;
+}
+
+.tavern{
+    height: 490px;
+}
+
+.tavern-btn {
+    margin-top: 300px;
+    width: 400px;
+    height: 100px;
+    background-color: #c35000;
+    border: 8px ridge #ffffff;
+    font-size: 34px;
+    transition: all .5s ease-in-out;
+    cursor: pointer;
+}
+
+    .tavern-btn:hover {
+        border: 10px double rgba(0, 0, 0, 0.90);
+        background-color: rgba(255, 255, 255, 0.15);
+        color: rgba(255, 255, 255, 0.70);
+        width: 320px;
+        height: 120px;
+        font-size: 50px;
+        letter-spacing: 5px;
+        border-radius: 50px;
+       
+    }
+
 
 
 

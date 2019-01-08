@@ -1,4 +1,5 @@
-﻿using StudentsKingdom.Data.Models;
+﻿using Microsoft.AspNetCore.Authentication;
+using StudentsKingdom.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
@@ -19,5 +20,8 @@ namespace StudentsKingdom.Data.Services.Contracts
         Task<Player> GetPlayerAsync(string username, string password);
         Task SeedAdminAsync();
         Task SeedRolesAsync();
+        AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl);
+        Task ExternalLoginCallback();
+
     }
 }

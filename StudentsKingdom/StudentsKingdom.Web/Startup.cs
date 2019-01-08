@@ -42,7 +42,7 @@ namespace StudentsKingdom.Web
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-                
+
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -58,7 +58,7 @@ namespace StudentsKingdom.Web
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
             })
-                 //.AddDefaultUI()
+                //.AddDefaultUI()
                 .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -76,8 +76,10 @@ namespace StudentsKingdom.Web
                 options.AccessDeniedPath = $"/Account/Access-Denied";
             });
 
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //xsrf security
+            services.AddMvc(options =>
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute())
+                ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddAutoMapper();
 
@@ -96,7 +98,7 @@ namespace StudentsKingdom.Web
             services.AddScoped<IEnemyService, EnemyService>();
             services.AddScoped<IInventoryItemService, InventoryItemService>();
 
-            
+
 
 
         }

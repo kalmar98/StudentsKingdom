@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StudentsKingdom.Common.Constants.Character;
+using StudentsKingdom.Common.Constants.Item;
 using StudentsKingdom.Data.Common.Enums.Items;
 using StudentsKingdom.Data.Models;
 using StudentsKingdom.Data.Services.Contracts;
@@ -15,20 +17,21 @@ namespace StudentsKingdom.Data.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IInventoryItemService inventoryItemService;
+        private readonly IItemService itemService;
         private readonly IQuestService questService;
         private readonly IMapper mapper;
 
-        public CharacterService(ApplicationDbContext context, IInventoryItemService inventoryItemService, IQuestService questService, IMapper mapper)
+        public CharacterService(ApplicationDbContext context, IInventoryItemService inventoryItemService,IItemService itemService, IQuestService questService, IMapper mapper)
         {
             this.context = context;
             this.inventoryItemService = inventoryItemService;
+            this.itemService = itemService;
             this.questService = questService;
             this.mapper = mapper;
         }
 
         public async Task<Character> CreateCharacterAsync(int coins, Stats stats, Inventory inventory)
         {
-            //maybe dto and mapping somehow
             var character = new Character
             {
                 Coins = coins,
@@ -234,6 +237,52 @@ namespace StudentsKingdom.Data.Services
             }
 
             return null;
+        }
+
+        public async Task<Character> PvpAsync(Character character)
+        {
+            var opponent = await this.GetOpponentAsync(character.Id);
+
+            if(opponent != null)
+            {
+                var result = await this.FightAsync(character.Stats, opponent.Stats);
+
+                if (result == CharacterConstants.LeftSideWon)
+                {
+                    if(!character.Inventory.InventoryItems.Any(x=>x.Item.Name == ItemConstants.DefaultRelicName))
+                    {
+                        var inventoryItem = await this.inventoryItemService.CreateInventoryItemAsync(character.Inventory, await this.itemService.GetItemAsync(ItemConstants.DefaultRelicName));
+                        character.Inventory.InventoryItems.Add(inventoryItem);
+                    }
+                    else
+                    {
+                        character.Coins += CharacterConstants.PvpWinCoins;
+                    }
+
+                    await this.context.SaveChangesAsync();
+                    return character;
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<Character> GetOpponentAsync(int attackerId)
+        {
+            var random = new Random();
+
+            var allCharacters = await this.context.Characters.Where(x => x.Id != attackerId).ToArrayAsync();
+
+            if (!allCharacters.Any())
+            {
+                return null;
+            }
+
+            var opponentIndex = random.Next(0, allCharacters.Count());
+
+            var opponent = allCharacters[opponentIndex];
+
+            return opponent;
         }
 
         public async Task<string> FightAsync(Stats leftSideStats, Stats rightSideStats)

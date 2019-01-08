@@ -10,6 +10,7 @@ using StudentsKingdom.Common.Constants.Location;
 using StudentsKingdom.Common.Constants.User;
 using StudentsKingdom.Data.Common.Enums.Locations;
 using StudentsKingdom.Data.Services.Contracts;
+using StudentsKingdom.Web.Areas.Game.Models.Shared;
 
 namespace StudentsKingdom.Web.Areas.Game.Controllers
 {
@@ -40,9 +41,9 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         {
             var location = await this.locationService.GetLocationByTypeAsync(LocationType.Canteen);
 
-            //може да се сложи мапинг later
+            var model = this.mapper.Map<TradeViewModel>(location);
 
-            return this.View(location);
+            return this.View(model);
         }
 
         [HttpPost]
@@ -58,7 +59,13 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
             var item = await this.itemService.GetItemAsync(itemId);
             var player = await this.accountService.GetPlayerAsync(this.User);
 
+            var location = await this.locationService.GetLocationByTypeAsync(LocationType.Canteen);
 
+            if (!location.Inventory.InventoryItems.Any(x => x.Item.Id == item.Id))
+            {
+                //security
+                return this.Redirect(LocationConstants.CanteenPath);
+            }
 
             if (await this.inventoryService.IsInventoryFullAsync(player.Character.Inventory))
             {

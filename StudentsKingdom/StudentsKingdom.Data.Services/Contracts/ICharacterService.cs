@@ -24,5 +24,7 @@ namespace StudentsKingdom.Data.Services.Contracts
         Task<string> FightAsync(Stats leftSideStats, Stats rightSideStats);
         Task<int> AttackAsync(int attackerDamage, int defenderHealth);
         Task<int> GetDamageReduction(int defenderDefence);
+        Task<Character> PvpAsync(Character character);
+        Task<Character> GetOpponentAsync(int attackerId);
     }
 }

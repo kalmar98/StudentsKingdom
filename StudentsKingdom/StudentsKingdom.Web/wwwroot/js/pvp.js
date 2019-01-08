@@ -1,15 +1,13 @@
 ﻿$(document).ready(function () {
 
-    $("#questBtn").click(function () {
+    $("#pvpBtn").click(function () {
 
-        let modalName = '#questModal';
-        var data = $("input[name='difficult']:checked").val();
+        let modalName = '#pvpModal';
         
         $.ajax({
-            url: "/Game/University/Quest?id=" + data,
+            url: "/Game/Tavern/Pvp",
             method: "POST",
-            data: { data: data },
-
+            //data: { data: data },
 
         }).done(function (result) {
             $(modalName).html(result);
@@ -20,4 +18,3 @@
         return false;
     });
 });
-

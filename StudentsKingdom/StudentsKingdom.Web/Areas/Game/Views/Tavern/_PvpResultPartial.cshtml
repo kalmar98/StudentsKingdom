@@ -1,0 +1,22 @@
+﻿@model string
+
+<div class="modal-dialog mx-auto pvp-result">
+
+    @if (Model != null)
+    {
+        <div class="modal-header">
+            <h1 class="mx-auto">@CharacterConstants.LeftSideWon</h1>
+        </div>
+        <h2>Reward: @Model</h2>
+    }
+    else
+    {
+        <div class="modal-header">
+            <h1 class="mx-auto">@CharacterConstants.RightSideWon</h1>
+        </div>
+
+    }
+
+
+
+</div>

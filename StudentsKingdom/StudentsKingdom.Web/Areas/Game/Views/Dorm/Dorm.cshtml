@@ -1,14 +1,13 @@
-﻿@model Player
+﻿@model CharacterViewModel
 @{
     ViewData["Title"] = "Dorm";
 }
-
 
 <div class="row">
     <div class="col-md-4">
         <div class="username center font-moria-citadel">@User.Identity.Name</div>
         <div class="avatar-wrap mx-auto">
-            <div id="stats" data-id="@Model.Character.StatsId" class="avatar"></div>
+            <div id="stats" data-id="@Model.Stats.Id" class="avatar"></div>
             <div class="avatar-description-layer">
                 <div class="avatar-description">
                     <div id="statsInfo">
@@ -18,14 +17,14 @@
             </div>
         </div>
 
-        <partial name="_EquippedItemsPartial" for="@Model.Character.Inventory.InventoryItems" />
+        <partial name="_EquippedItemsPartial" for="@Model.Inventory.InventoryItems" />
 
     </div>
     <div class="col-md-8 center">
         <h1 class="center font-moria-citadel inventory-header">Inventory</h1>
         <form method="post">
             <select class="inventory" multiple id="item">
-                @foreach (var i in Model.Character.Inventory.InventoryItems.Where(x => !x.IsEquipped))
+                @foreach (var i in Model.Inventory.InventoryItems.Where(x => !x.IsEquipped))
                 {
                     <option data-toggle="popover" id="@i.Item.Id" data-id="@i.Item" data-trigger="hover" data-content class="font-moria-citadel option-item center">@i.Item.Name</option>
                 }
@@ -37,10 +36,10 @@
         </form>
 
         <div class="capacity font-moria-citadel" id="capacity">
-            @Model.Character.Inventory.InventoryItems.Where(x => !x.IsEquipped).Count()/@Model.Character.Inventory.Capacity Capacity
+            @Model.Inventory.InventoryItems.Where(x => !x.IsEquipped).Count()/@Model.Inventory.Capacity Capacity
         </div>
         <div class="coins font-moria-citadel">
-            @Model.Character.Coins Coins
+            @Model.Coins Coins
         </div>
 
 

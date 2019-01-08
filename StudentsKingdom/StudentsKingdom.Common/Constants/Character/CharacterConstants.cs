@@ -21,6 +21,8 @@ namespace StudentsKingdom.Common.Constants.Character
 
         public const string LeftSideWon = "You won!";
         public const string RightSideWon = "You lost!";
+
+        public const int PvpWinCoins = 200;
         
     }
 }

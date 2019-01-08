@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using StudentsKingdom.Common.Constants.Character;
 using StudentsKingdom.Common.Enums;
@@ -152,6 +153,31 @@ namespace StudentsKingdom.Data.Services
                 }
             }
 
+        }
+
+        public AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl)
+        {
+            return this.signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        }
+
+        public async Task ExternalLoginCallback()
+        {
+            var info = await signInManager.GetExternalLoginInfoAsync();
+            var identity = (ClaimsIdentity)info.Principal.Identity;
+            var email = identity.Claims.ElementAt(1).Value;
+            var username = email.Substring(0, email.IndexOf('@'));
+            
+
+            if(!this.signInManager.UserManager.Users.Any(x=>x.UserName == username))
+            {
+                var player = await this.CreatePlayerAsync(username, email);
+                var createUserResult = await this.signInManager.UserManager.CreateAsync(player);
+                var addLoginResult = await this.signInManager.UserManager.AddLoginAsync(player, info);
+                var createRoleResult = this.signInManager.UserManager.AddToRoleAsync(player, UserRoles.Player.ToString()).Result;
+            }
+
+            
+            var externalLoginResult = await this.signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
         }
 
 

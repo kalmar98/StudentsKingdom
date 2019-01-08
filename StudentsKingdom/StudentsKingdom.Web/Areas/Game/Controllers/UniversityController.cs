@@ -18,18 +18,14 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
     public class UniversityController : Controller
     {
         private readonly ILocationService locationService;
-        private readonly IItemService itemService;
         private readonly IAccountService accountService;
-        private readonly IInventoryService inventoryService;
         private readonly ICharacterService characterService;
         private readonly IMapper mapper;
 
-        public UniversityController(ILocationService locationService, IItemService itemService, IAccountService accountService, IInventoryService inventoryService, ICharacterService characterService, IMapper mapper)
+        public UniversityController(ILocationService locationService, IAccountService accountService, ICharacterService characterService, IMapper mapper)
         {
             this.locationService = locationService;
-            this.itemService = itemService;
             this.accountService = accountService;
-            this.inventoryService = inventoryService;
             this.characterService = characterService;
             this.mapper = mapper;
         }
@@ -37,14 +33,13 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         [Route(LocationConstants.UniversityPath)]
         public async Task<IActionResult> University()
         {
-            var location = await this.locationService.GetLocationByTypeAsync(LocationType.University);
-
-            //може да се сложи мапинг later
-
-            return this.View(location);
+            return await Task.Run(() =>
+            {
+                return this.View();
+            });
         }
 
-
+        [HttpPost]
         [Route(LocationConstants.UniversityTrainPath)]
         public async Task<IActionResult> Train(string stat)
         {
@@ -58,9 +53,10 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
             }
 
             return this.Redirect(LocationConstants.UniversityPath);
-            
+
         }
 
+        [HttpPost]
         [Route(LocationConstants.UniversityQuestPath)]
         public async Task<IActionResult> Quest(string data)
         {
@@ -68,13 +64,13 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
 
             var result = await this.characterService.QuestAsync(player.Character, data);
 
-            if(result != null)
+            if (result != null)
             {
                 var model = this.mapper.Map<QuestInfoViewModel>(result);
-                return this.PartialView("_QuestResultPartial",model);
+                return this.PartialView(LocationConstants.UniversityQuestResultPartialPath, model);
             }
 
-            return this.PartialView("_QuestResultPartial", null);
+            return this.PartialView(LocationConstants.UniversityQuestResultPartialPath, null);
         }
 
 

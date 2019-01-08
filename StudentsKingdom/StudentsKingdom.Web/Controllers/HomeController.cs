@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StudentsKingdom.Common.Constants.Location;
 using StudentsKingdom.Common.Enums;
 using StudentsKingdom.Web.Models;
 
@@ -18,13 +19,11 @@ namespace StudentsKingdom.Web.Controllers
             {
                 if (this.User.IsInRole(UserRoles.Admin.ToString()))
                 {
-                    return this.Redirect("/Administration");
+                    return this.Redirect(LocationConstants.AdministrationPath);
                 }
 
-                return this.Redirect("/Game");
+                return this.Redirect(LocationConstants.GamePath);
             }
-
-
             
             return this.View();
         }

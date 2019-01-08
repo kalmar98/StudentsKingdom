@@ -39,13 +39,12 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         {
             var player = await this.accountService.GetPlayerAsync(this.User);
 
+            var model = this.mapper.Map<CharacterViewModel>(player.Character);
 
-            return this.View(player);
+            return this.View(model);
         }
 
-
-
-
+        [HttpPost]
         public async Task<IActionResult> StatsInfo(int id)
         {
 
@@ -58,21 +57,23 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
 
             var model = this.mapper.Map<StatsViewModel>(stats);
 
-            return this.PartialView("_StatsPartial", model);
+            return this.PartialView(LocationConstants.StatsPartialPath, model);
 
         }
 
+        [HttpPost]
         public async Task<IActionResult> ItemInfo(string data)
         {
             return await Task.Run(() =>
             {
                 var model = JsonConvert.DeserializeObject<ItemInfoViewModel>(data);
 
-                return this.PartialView("_ItemInfoPartial", model);
+                return this.PartialView(LocationConstants.ItemInfoPartialPath, model);
             });
 
         }
 
+        [HttpPost]
         public async Task<IActionResult> Equip(int id)
         {
             
@@ -89,6 +90,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
             return new EmptyResult();
         }
 
+        [HttpPost]
         public async Task<IActionResult> Unequip(string data)
         {
             var player = await this.accountService.GetPlayerAsync(this.User);
@@ -103,6 +105,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
             return new EmptyResult();
         }
 
+        [HttpPost]
         public async Task<IActionResult> Remove(int id)
         {
             var item = await this.itemService.GetItemAsync(id);
