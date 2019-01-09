@@ -124,7 +124,7 @@ namespace StudentsKingdom.Data.Services
                             {
                                 if (resultValue > await this.GetHealthValueAsync(character.Stats.Vitality))
                                 {
-                                    continue;
+                                    resultValue = await this.GetHealthValueAsync(character.Stats.Vitality);
                                 }
                             }
                             character.Stats.GetType().GetProperty(stat.Name).SetValue(character.Stats, resultValue);
