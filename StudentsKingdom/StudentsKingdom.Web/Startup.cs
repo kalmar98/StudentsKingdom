@@ -33,17 +33,12 @@ namespace StudentsKingdom.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
             services.Configure<CookiePolicyOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-
             });
 
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -58,6 +53,9 @@ namespace StudentsKingdom.Web
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireDigit = false;
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                //Lockout time-а нарочно е малко ;)
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(10);
             })
                 //.AddDefaultUI()
                 .AddDefaultTokenProviders()
@@ -82,6 +80,7 @@ namespace StudentsKingdom.Web
                 options.LoginPath = $"/Home/Index";
                 options.LogoutPath = $"/Account/Logout";
                 options.AccessDeniedPath = $"/Home/Index";
+                options.ExpireTimeSpan = TimeSpan.FromHours(12);
             });
 
             //xsrf security
@@ -107,7 +106,10 @@ namespace StudentsKingdom.Web
             services.AddScoped<IInventoryItemService, InventoryItemService>();
 
 
-
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.FromMinutes(5);
+            });
 
         }
 

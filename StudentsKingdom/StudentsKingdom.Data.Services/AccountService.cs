@@ -21,16 +21,14 @@ namespace StudentsKingdom.Data.Services
         private readonly ICharacterService characterService;
         private readonly IStatsService statsService;
         private readonly IInventoryService inventoryService;
-        private readonly IMapper mapper;
 
-        public AccountService(SignInManager<Player> signInManager, RoleManager<IdentityRole> roleManager, ICharacterService characterService, IStatsService statsService, IInventoryService inventoryService, IMapper mapper)
+        public AccountService(SignInManager<Player> signInManager, RoleManager<IdentityRole> roleManager, ICharacterService characterService, IStatsService statsService, IInventoryService inventoryService)
         {
             this.signInManager = signInManager;
             this.roleManager = roleManager;
             this.characterService = characterService;
             this.statsService = statsService;
             this.inventoryService = inventoryService;
-            this.mapper = mapper;
         }
 
         public async Task<Player> RegisterAsync(string username, string password, string email)
@@ -64,13 +62,14 @@ namespace StudentsKingdom.Data.Services
             return await this.signInManager.UserManager.GetUserAsync(claimsPrincipal);
         }
 
-        public async Task<Player> GetPlayerAsync(string username, string password)
+        public async Task<Player> CheckPasswordAsync(string username, string password)
         {
             var player = await this.signInManager.UserManager.FindByNameAsync(username);
 
             if (player != null)
             {
-                var passwordCheck = await signInManager.CheckPasswordSignInAsync(player, password, false);
+                //brute force security with lockout
+                var passwordCheck = await signInManager.CheckPasswordSignInAsync(player, password, true);
 
                 if (passwordCheck.Succeeded)
                 {

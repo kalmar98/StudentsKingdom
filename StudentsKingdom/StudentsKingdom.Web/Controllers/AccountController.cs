@@ -30,7 +30,7 @@ namespace StudentsKingdom.Web.Controllers
         { 
             if (this.ModelState.IsValid)
             {
-                var player = await this.accountService.GetPlayerAsync(model.Username, model.Password);
+                var player = await this.accountService.CheckPasswordAsync(model.Username, model.Password);
 
                 if (player != null)
                 {

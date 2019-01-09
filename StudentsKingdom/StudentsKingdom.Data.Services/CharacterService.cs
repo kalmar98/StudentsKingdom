@@ -19,15 +19,13 @@ namespace StudentsKingdom.Data.Services
         private readonly IInventoryItemService inventoryItemService;
         private readonly IItemService itemService;
         private readonly IQuestService questService;
-        private readonly IMapper mapper;
 
-        public CharacterService(ApplicationDbContext context, IInventoryItemService inventoryItemService, IItemService itemService, IQuestService questService, IMapper mapper)
+        public CharacterService(ApplicationDbContext context, IInventoryItemService inventoryItemService, IItemService itemService, IQuestService questService)
         {
             this.context = context;
             this.inventoryItemService = inventoryItemService;
             this.itemService = itemService;
             this.questService = questService;
-            this.mapper = mapper;
         }
 
         public async Task<Character> CreateCharacterAsync(int coins, Stats stats, Inventory inventory)

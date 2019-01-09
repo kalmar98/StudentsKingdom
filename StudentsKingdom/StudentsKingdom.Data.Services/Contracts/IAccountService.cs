@@ -17,7 +17,7 @@ namespace StudentsKingdom.Data.Services.Contracts
         Task LoginAsync(Player player, bool rememberMe);
         Task LogoutAsync();
         Task<Player> GetPlayerAsync(ClaimsPrincipal claimsPrincipal);
-        Task<Player> GetPlayerAsync(string username, string password);
+        Task<Player> CheckPasswordAsync(string username, string password);
         Task SeedAdminAsync();
         Task SeedRolesAsync();
         AuthenticationProperties ConfigureExternalAuthenticationProperties(string provider, string redirectUrl);
