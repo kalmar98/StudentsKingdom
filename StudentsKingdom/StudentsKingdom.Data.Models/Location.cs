@@ -1,4 +1,5 @@
-﻿using StudentsKingdom.Data.Common;
+﻿using Newtonsoft.Json;
+using StudentsKingdom.Data.Common;
 using StudentsKingdom.Data.Common.Contracts;
 using StudentsKingdom.Data.Common.Enums.Locations;
 using System;

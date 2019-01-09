@@ -11,6 +11,6 @@ namespace StudentsKingdom.Data.Services.Contracts
     {
         Task SeedLocationsAsync();
         Task<Location> CreateLocationAsync(string name, Inventory inventory, LocationType type);
-        Task<Location> GetLocationByTypeAsync(LocationType type);
+        Task<Location> GetLocationAsync(LocationType type);
     }
 }

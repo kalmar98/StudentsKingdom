@@ -3,7 +3,7 @@
 
     if (id > 0) {
         $.ajax({
-            url: "/Game/Dorm/Remove?data=" + id,
+            url: "/Game/Dorm/Remove?id=" + id,
             method: "POST",
             data: { id: id },
         }).done(function (result) {

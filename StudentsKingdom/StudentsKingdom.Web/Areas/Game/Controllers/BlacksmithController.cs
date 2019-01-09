@@ -38,7 +38,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         [Route(LocationConstants.BlacksmithPath)]
         public async Task<IActionResult> Blacksmith()
         {
-            var location = await this.locationService.GetLocationByTypeAsync(LocationType.Blacksmith);
+            var location = await this.locationService.GetLocationAsync(LocationType.Blacksmith);
 
             var model = this.mapper.Map<TradeViewModel>(location);
 
@@ -58,7 +58,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
             var item = await this.itemService.GetItemAsync(itemId);
             var player = await this.accountService.GetPlayerAsync(this.User);
 
-            var location = await this.locationService.GetLocationByTypeAsync(LocationType.Blacksmith);
+            var location = await this.locationService.GetLocationAsync(LocationType.Blacksmith);
 
             if(!location.Inventory.InventoryItems.Any(x=>x.Item.Id == item.Id))
             {

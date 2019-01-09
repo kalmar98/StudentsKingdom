@@ -11,12 +11,10 @@ namespace StudentsKingdom.Data.Services
     public class InventoryItemService : IInventoryItemService
     {
         private readonly ApplicationDbContext context;
-        private readonly IMapper mapper;
 
-        public InventoryItemService(ApplicationDbContext context, IMapper mapper)
+        public InventoryItemService(ApplicationDbContext context)
         { 
             this.context = context;
-            this.mapper = mapper;
         }
 
         public async Task<InventoryItem> CreateInventoryItemAsync(Inventory inventory, Item item)
@@ -32,5 +30,7 @@ namespace StudentsKingdom.Data.Services
 
             return inventoryItem;
         }
+
+
     }
 }

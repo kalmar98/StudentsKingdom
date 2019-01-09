@@ -17,14 +17,12 @@ namespace StudentsKingdom.Data.Services
         private readonly ApplicationDbContext context;
         private readonly IInventoryItemService inventoryItemService;
         private readonly IItemService itemService;
-        private readonly IMapper mapper;
 
-        public InventoryService(ApplicationDbContext context, IInventoryItemService inventoryItemService, IItemService itemService, IMapper mapper)
+        public InventoryService(ApplicationDbContext context, IInventoryItemService inventoryItemService, IItemService itemService)
         {
             this.context = context;
             this.inventoryItemService = inventoryItemService;
             this.itemService = itemService;
-            this.mapper = mapper;
         }
 
         public async Task<Inventory> CreateInventoryAsync()
@@ -42,44 +40,49 @@ namespace StudentsKingdom.Data.Services
 
         public async Task<Inventory> CreateInventoryAsync(LocationType locationType)
         {
-            var inventory = new Inventory
+            if (locationType == LocationType.Blacksmith || locationType == LocationType.Canteen)
             {
-                Capacity = CharacterConstants.InventoryCapacity
-            };
+                var inventory = new Inventory
+                {
+                    Capacity = CharacterConstants.InventoryCapacity
+                };
 
-            await this.context.Inventories.AddAsync(inventory);
-            await this.context.SaveChangesAsync();
+                await this.context.Inventories.AddAsync(inventory);
+                await this.context.SaveChangesAsync();
 
-            if (locationType == LocationType.Blacksmith)
-            {
-                //малко дървено, но за сега :)
+                if (locationType == LocationType.Blacksmith)
+                {
+                    //малко дървено, но за сега :)
 
-                inventory.InventoryItems.Add(
-                    await this.inventoryItemService.CreateInventoryItemAsync(
-                        inventory,
-                        await this.itemService.GetItemAsync(ItemConstants.DefaultSwordName)
-                    ));
-                inventory.InventoryItems.Add(
-                    await this.inventoryItemService.CreateInventoryItemAsync(
-                        inventory,
-                        await this.itemService.GetItemAsync(ItemConstants.DefaultArmourName)
-                    ));
+                    inventory.InventoryItems.Add(
+                        await this.inventoryItemService.CreateInventoryItemAsync(
+                            inventory,
+                            await this.itemService.GetItemAsync(ItemConstants.DefaultSwordName)
+                        ));
+                    inventory.InventoryItems.Add(
+                        await this.inventoryItemService.CreateInventoryItemAsync(
+                            inventory,
+                            await this.itemService.GetItemAsync(ItemConstants.DefaultArmourName)
+                        ));
 
 
+                }
+                else if (locationType == LocationType.Canteen)
+                {
+                    inventory.InventoryItems.Add(
+                         await this.inventoryItemService.CreateInventoryItemAsync(
+                             inventory,
+                             await this.itemService.GetItemAsync(ItemConstants.DefaultFoodName)
+                         ));
+                }
+
+
+                await this.context.SaveChangesAsync();
+
+                return inventory;
             }
-            else if (locationType == LocationType.Canteen)
-            {
-                inventory.InventoryItems.Add(
-                     await this.inventoryItemService.CreateInventoryItemAsync(
-                         inventory,
-                         await this.itemService.GetItemAsync(ItemConstants.DefaultFoodName)
-                     ));
-            }
 
-
-            await this.context.SaveChangesAsync();
-
-            return inventory;
+            return null;
         }
 
 

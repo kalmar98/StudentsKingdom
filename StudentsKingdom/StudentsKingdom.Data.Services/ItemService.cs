@@ -16,16 +16,13 @@ namespace StudentsKingdom.Data.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IStatsService statsService;
-        private readonly IMapper mapper;
 
-        public ItemService(ApplicationDbContext context, IStatsService statsService, IMapper mapper)
+        public ItemService(ApplicationDbContext context, IStatsService statsService)
         {
             this.context = context;
             this.statsService = statsService;
-            this.mapper = mapper;
+         
         }
-
-        
 
         public async Task<Item> CreateItemAsync(string name, int price, ItemType type, Stats stats, string image)
         {

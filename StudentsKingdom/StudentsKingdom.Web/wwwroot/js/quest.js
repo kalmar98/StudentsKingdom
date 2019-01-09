@@ -6,7 +6,7 @@
         var data = $("input[name='difficult']:checked").val();
         
         $.ajax({
-            url: "/Game/University/Quest?id=" + data,
+            url: "/Game/University/Quest?data=" + data,
             method: "POST",
             data: { data: data },
 

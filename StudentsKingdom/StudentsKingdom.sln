@@ -9,13 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsKingdom.Data", "Stu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsKingdom.Data.Models", "StudentsKingdom.Data.Models\StudentsKingdom.Data.Models.csproj", "{7DFACE61-429A-4A58-A4F5-C3CAC1B18ACF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsKingdom.Common", "StudentsKingdom.Common\StudentsKingdom.Common.csproj", "{3B71FE1B-2C72-408E-B735-F4FCFD622AC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsKingdom.Common", "StudentsKingdom.Common\StudentsKingdom.Common.csproj", "{3B71FE1B-2C72-408E-B735-F4FCFD622AC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsKingdom.Data.Services", "StudentsKingdom.Data.Services\StudentsKingdom.Data.Services.csproj", "{C9E24BC6-7359-4541-B8C1-5D8F0C6CF740}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsKingdom.Data.Services", "StudentsKingdom.Data.Services\StudentsKingdom.Data.Services.csproj", "{C9E24BC6-7359-4541-B8C1-5D8F0C6CF740}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsKingdom.Mapping", "StudentsKingdom.Mapping\StudentsKingdom.Mapping.csproj", "{28FBBE10-AA26-4F08-81AD-2AE865A3B720}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsKingdom.Mapping", "StudentsKingdom.Mapping\StudentsKingdom.Mapping.csproj", "{28FBBE10-AA26-4F08-81AD-2AE865A3B720}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsKingdom.Data.Common", "StudentsKingdom.Data.Common\StudentsKingdom.Data.Common.csproj", "{02077237-FE97-4A67-881F-1C9D3596458A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentsKingdom.Data.Common", "StudentsKingdom.Data.Common\StudentsKingdom.Data.Common.csproj", "{02077237-FE97-4A67-881F-1C9D3596458A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentsKingdom.Data.Services.Tests", "StudentsKingdom.Data.Services.Tests\StudentsKingdom.Data.Services.Tests.csproj", "{FB365A34-4273-4A54-B24A-B08CA6CC7830}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{02077237-FE97-4A67-881F-1C9D3596458A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02077237-FE97-4A67-881F-1C9D3596458A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02077237-FE97-4A67-881F-1C9D3596458A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB365A34-4273-4A54-B24A-B08CA6CC7830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB365A34-4273-4A54-B24A-B08CA6CC7830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB365A34-4273-4A54-B24A-B08CA6CC7830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB365A34-4273-4A54-B24A-B08CA6CC7830}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

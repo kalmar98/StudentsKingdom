@@ -39,7 +39,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         [Route(LocationConstants.CanteenPath)]
         public async Task<IActionResult> Canteen()
         {
-            var location = await this.locationService.GetLocationByTypeAsync(LocationType.Canteen);
+            var location = await this.locationService.GetLocationAsync(LocationType.Canteen);
 
             var model = this.mapper.Map<TradeViewModel>(location);
 
@@ -59,7 +59,7 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
             var item = await this.itemService.GetItemAsync(itemId);
             var player = await this.accountService.GetPlayerAsync(this.User);
 
-            var location = await this.locationService.GetLocationByTypeAsync(LocationType.Canteen);
+            var location = await this.locationService.GetLocationAsync(LocationType.Canteen);
 
             if (!location.Inventory.InventoryItems.Any(x => x.Item.Id == item.Id))
             {

@@ -7,10 +7,12 @@ namespace StudentsKingdom.Web.Models
     public class LoginViewModel
     {
         [Required(AllowEmptyStrings = false)]
+        [StringLength(UserConstants.UsernameMaxLength, MinimumLength = UserConstants.UsernameMinLength)]
         [RegularExpression(UserConstants.ValidUsernameAndPasswordRegex, ErrorMessage = ExceptionMessages.InvalidUsernameOrPasswordRegex)]
         public string Username { get; set; }
 
         [Required(AllowEmptyStrings = false)]
+        [StringLength(UserConstants.PasswordMaxLength, MinimumLength = UserConstants.PasswordMinLength)]
         [RegularExpression(UserConstants.ValidUsernameAndPasswordRegex, ErrorMessage = ExceptionMessages.InvalidUsernameOrPasswordRegex)]
         public string Password { get; set; }
 

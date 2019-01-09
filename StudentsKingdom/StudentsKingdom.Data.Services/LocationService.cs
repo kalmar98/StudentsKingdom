@@ -15,16 +15,14 @@ namespace StudentsKingdom.Data.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IInventoryService inventoryService;
-        private readonly IMapper mapper;
 
-        public LocationService(ApplicationDbContext context, IInventoryService inventoryService,  IMapper mapper)
+        public LocationService(ApplicationDbContext context, IInventoryService inventoryService)
         {
             this.context = context;
             this.inventoryService = inventoryService;
-            this.mapper = mapper;
         }
 
-        public async Task<Location> GetLocationByTypeAsync(LocationType type)
+        public async Task<Location> GetLocationAsync(LocationType type)
         {
             return await this.context.Locations.SingleAsync(x => x.Type == type);
         }

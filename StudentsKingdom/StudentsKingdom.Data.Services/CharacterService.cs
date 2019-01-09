@@ -21,7 +21,7 @@ namespace StudentsKingdom.Data.Services
         private readonly IQuestService questService;
         private readonly IMapper mapper;
 
-        public CharacterService(ApplicationDbContext context, IInventoryItemService inventoryItemService,IItemService itemService, IQuestService questService, IMapper mapper)
+        public CharacterService(ApplicationDbContext context, IInventoryItemService inventoryItemService, IItemService itemService, IQuestService questService, IMapper mapper)
         {
             this.context = context;
             this.inventoryItemService = inventoryItemService;
@@ -93,53 +93,59 @@ namespace StudentsKingdom.Data.Services
 
         public async Task<Item> EquipAsync(Character character, Item item)
         {
-            if (!character.Inventory.InventoryItems.Any(x => x.IsEquipped && x.Item.Type == item.Type))
+            //security
+            var inventoryItem = character.Inventory.InventoryItems.FirstOrDefault(x => x.ItemId == item.Id);
+
+            if (inventoryItem != null)
             {
-                character.Inventory.InventoryItems.FirstOrDefault(x => x.ItemId == item.Id).IsEquipped = true;
-
-                foreach (var stat in item.Stats.GetType().GetProperties().Where(x => x.Name != "LazyLoader" && x.Name != "Id"))
+                if (!character.Inventory.InventoryItems.Any(x => x.IsEquipped && x.Item.Type == item.Type))
                 {
-                    var statValue = (int)stat.GetValue(item.Stats);
+                    inventoryItem.IsEquipped = true;
 
-                    if (statValue > 0)
+                    foreach (var stat in item.Stats.GetType().GetProperties().Where(x => x.Name != "LazyLoader" && x.Name != "Id"))
                     {
-                        switch (stat.Name)
-                        {
-                            case nameof(item.Stats.Vitality):
-                                character.Stats.Health += await this.GetHealthValueAsync(statValue);
-                                break;
-                            case nameof(item.Stats.Strength):
-                                character.Stats.Damage += await this.GetDamageValueAsync(statValue);
-                                break;
-                            default:
-                                break;
-                        }
+                        var statValue = (int)stat.GetValue(item.Stats);
 
-
-                        var resultValue = (int)character.Stats.GetType().GetProperty(stat.Name).GetValue(character.Stats) + statValue;
-                        if (stat.Name == nameof(item.Stats.Health))
+                        if (statValue > 0)
                         {
-                            if (resultValue > await this.GetHealthValueAsync(character.Stats.Vitality))
+                            switch (stat.Name)
                             {
-                                continue;
+                                case nameof(item.Stats.Vitality):
+                                    character.Stats.Health += await this.GetHealthValueAsync(statValue);
+                                    break;
+                                case nameof(item.Stats.Strength):
+                                    character.Stats.Damage += await this.GetDamageValueAsync(statValue);
+                                    break;
+                                default:
+                                    break;
                             }
-                        }
-                        character.Stats.GetType().GetProperty(stat.Name).SetValue(character.Stats, resultValue);
 
+
+                            var resultValue = (int)character.Stats.GetType().GetProperty(stat.Name).GetValue(character.Stats) + statValue;
+                            if (stat.Name == nameof(item.Stats.Health))
+                            {
+                                if (resultValue > await this.GetHealthValueAsync(character.Stats.Vitality))
+                                {
+                                    continue;
+                                }
+                            }
+                            character.Stats.GetType().GetProperty(stat.Name).SetValue(character.Stats, resultValue);
+
+                        }
                     }
 
-
-                }
-
-                await this.context.SaveChangesAsync();
-
-                if (item.Type == ItemType.Consumable)
-                {
-                    this.context.InventoryItems.Remove(character.Inventory.InventoryItems.First(x => x.ItemId == item.Id));
                     await this.context.SaveChangesAsync();
+
+                    if (item.Type == ItemType.Consumable)
+                    {
+                        this.context.InventoryItems.Remove(inventoryItem);
+                        await this.context.SaveChangesAsync();
+                    }
+                    return item;
                 }
-                return item;
             }
+
+
 
             return null;
         }
@@ -186,6 +192,7 @@ namespace StudentsKingdom.Data.Services
 
         public async Task<bool> RemoveAsync(Character character, Item item)
         {
+            //security
             var inventoryItem = character.Inventory.InventoryItems.FirstOrDefault(x => x.ItemId == item.Id);
 
             if (inventoryItem != null)
@@ -201,25 +208,30 @@ namespace StudentsKingdom.Data.Services
 
         public async Task<bool> TrainAsync(Character character, string statName)
         {
-
-            if (typeof(Stats).GetProperties().Any(x => x.Name == statName))
+            //security
+            if (statName == nameof(Stats.Vitality) || statName == nameof(Stats.Strength) || statName == nameof(Stats.Agility) || statName == nameof(Stats.Intellect))
             {
-                var property = typeof(Stats).GetProperty(statName);
-                var value = (int)property.GetValue(character.Stats) + CharacterConstants.TrainStatValue;
-                property.SetValue(character.Stats, value);
-                if (statName == nameof(Stats.Vitality))
+                if (typeof(Stats).GetProperties().Any(x => x.Name == statName))
                 {
-                    character.Stats.Health = await this.GetHealthValueAsync(value);
-                }
-                else if (statName == nameof(Stats.Strength))
-                {
-                    character.Stats.Damage = await this.GetDamageValueAsync(value);
-                }
+                    var property = typeof(Stats).GetProperty(statName);
+                    var value = (int)property.GetValue(character.Stats) + CharacterConstants.TrainStatValue;
+                    property.SetValue(character.Stats, value);
+                    if (statName == nameof(Stats.Vitality))
+                    {
+                        character.Stats.Health = await this.GetHealthValueAsync(value);
+                    }
+                    else if (statName == nameof(Stats.Strength))
+                    {
+                        character.Stats.Damage = await this.GetDamageValueAsync(value);
+                    }
 
-                await this.context.SaveChangesAsync();
+                    await this.context.SaveChangesAsync();
 
-                return true;
+                    return true;
+                }
             }
+
+            
 
             return false;
         }
@@ -325,10 +337,6 @@ namespace StudentsKingdom.Data.Services
 
                 await this.context.SaveChangesAsync();
             }
-
-
-
-
 
             return result;
 

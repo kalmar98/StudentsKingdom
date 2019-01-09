@@ -24,9 +24,5 @@ namespace StudentsKingdom.Data.Models
         [JsonIgnore]
         public virtual ICollection<InventoryItem> InventoryItems { get; set; } = new List<InventoryItem>();
 
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
     }
 }

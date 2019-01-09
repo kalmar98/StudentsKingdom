@@ -1,7 +1,7 @@
 ﻿@model LoginViewModel
 <div class="modal-dialog mx-auto">
     <div class="modal-content">
-        <form method="post" action="/Account/Login">
+        <form method="post" asp-controller="Account" asp-action="Login">
             <div class="modal-header">
                 <h2 class="mx-auto font-moria-citadel">Login</h2>
             </div>
@@ -44,5 +44,5 @@
     </div>
 </div>
 
-
+<partial name="_ValidationScriptsPartial" />
 

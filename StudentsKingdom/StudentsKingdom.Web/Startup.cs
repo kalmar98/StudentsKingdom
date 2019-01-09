@@ -20,6 +20,7 @@ using StudentsKingdom.Data.Services.Contracts;
 using AutoMapper;
 using StudentsKingdom.Common.Constants.User;
 using StudentsKingdom.Web.Controllers;
+using Microsoft.AspNetCore.CookiePolicy;
 
 namespace StudentsKingdom.Web
 {
@@ -69,11 +70,18 @@ namespace StudentsKingdom.Web
                     facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                 });
 
+            services.AddAntiforgery(options =>
+            {
+                options.HeaderName = "X-CSRF-TOKEN";
+                options.Cookie.Name = "X-CSRF-TOKEN-MOONGLADE";
+                options.FormFieldName = "CSRF-TOKEN-MOONGLADE-FORM";
+            });
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = $"/Home/Index";
                 options.LogoutPath = $"/Account/Logout";
-                options.AccessDeniedPath = $"/Account/Access-Denied";
+                options.AccessDeniedPath = $"/Home/Index";
             });
 
             //xsrf security
@@ -119,7 +127,12 @@ namespace StudentsKingdom.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            app.UseCookiePolicy(new CookiePolicyOptions
+            {
+                HttpOnly = HttpOnlyPolicy.Always,
+                Secure = CookieSecurePolicy.Always,
+                MinimumSameSitePolicy = SameSiteMode.None
+            });
 
             app.UseAuthentication();
 

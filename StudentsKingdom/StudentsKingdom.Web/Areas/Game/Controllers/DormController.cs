@@ -76,7 +76,6 @@ namespace StudentsKingdom.Web.Areas.Game.Controllers
         [HttpPost]
         public async Task<IActionResult> Equip(int id)
         {
-            
             var item = await this.itemService.GetItemAsync(id);
             var player = await this.accountService.GetPlayerAsync(this.User);
 

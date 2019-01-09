@@ -1,4 +1,5 @@
-﻿using StudentsKingdom.Data.Common;
+﻿using Newtonsoft.Json;
+using StudentsKingdom.Data.Common;
 using StudentsKingdom.Data.Common.Contracts;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace StudentsKingdom.Data.Models
     {
         public int Capacity { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<InventoryItem> InventoryItems { get; set; } = new List<InventoryItem>();
-
 
     }
 }

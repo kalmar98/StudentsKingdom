@@ -15,13 +15,11 @@ namespace StudentsKingdom.Data.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IStatsService statsService;
-        private readonly IMapper mapper;
 
-        public EnemyService(ApplicationDbContext context, IStatsService statsService, IMapper mapper)
+        public EnemyService(ApplicationDbContext context, IStatsService statsService)
         {
             this.context = context;
             this.statsService = statsService;
-            this.mapper = mapper;
         }
 
         public async Task<Enemy> CreateEnemyAsync(string name, Stats stats)

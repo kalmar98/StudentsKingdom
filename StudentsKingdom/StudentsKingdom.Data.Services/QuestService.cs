@@ -16,13 +16,11 @@ namespace StudentsKingdom.Data.Services
     {
         private readonly ApplicationDbContext context;
         private readonly IEnemyService enemyService;
-        private readonly IMapper mapper;
 
-        public QuestService(ApplicationDbContext context, IEnemyService enemyService, IMapper mapper)
+        public QuestService(ApplicationDbContext context, IEnemyService enemyService)
         {
             this.context = context;
-            this.enemyService = enemyService;
-            this.mapper = mapper;
+            this.enemyService = enemyService;          
         }
 
         public async Task<Quest> CreateQuestAsync(string name, int reward, Enemy enemy)
