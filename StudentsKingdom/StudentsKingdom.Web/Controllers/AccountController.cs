@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StudentsKingdom.Common.Constants;
 using StudentsKingdom.Common.Constants.Location;
 using StudentsKingdom.Common.Enums;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace StudentsKingdom.Web.Controllers
 {
+
     public class AccountController : Controller
     {
         private readonly IAccountService accountService;
@@ -22,12 +24,18 @@ namespace StudentsKingdom.Web.Controllers
 
         public IActionResult LoginWindow()
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect(LocationConstants.GamePath);
+            }
+
             return this.PartialView(LocationConstants.LoginWindowPartialPath);
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
-        { 
+        {
+
             if (this.ModelState.IsValid)
             {
                 var player = await this.accountService.CheckPasswordAsync(model.Username, model.Password);
@@ -53,6 +61,11 @@ namespace StudentsKingdom.Web.Controllers
 
         public IActionResult Register()
         {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                return this.Redirect(LocationConstants.GamePath);
+            }
+
             return this.View();
         }
 
